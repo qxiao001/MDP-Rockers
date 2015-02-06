@@ -1,0 +1,156 @@
+!SESSION 2015-01-30 09:40:49.408 -----------------------------------------------
+eclipse.buildId=4.3.0.M20130911-1000
+java.version=1.8.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.standard.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.standard.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-01-30 09:42:27.500
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\samsung'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 4 0 2015-01-30 09:43:07.755
+!MESSAGE Invalid project description.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:175)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:53)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:287)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:269)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createExistingProject(ProjectUtils.java:156)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.access$0(ProjectUtils.java:119)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils$1.run(ProjectUtils.java:91)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2345)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2327)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:111)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:55)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.importProjects(GitImportWizard.java:241)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.access$2(GitImportWizard.java:222)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard$2.run(GitImportWizard.java:192)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
+Contains: OK
+Contains: C:\Users\samsung\Documents\GitHub\MDP-Rockers overlaps the workspace location: C:\Users\samsung\Documents\GitHub\MDP-Rockers
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2015-01-30 09:43:07.762
+!MESSAGE Invalid project description.
+!SUBENTRY 2 unknown 0 0 2015-01-30 09:43:07.762
+!MESSAGE OK
+!SUBENTRY 2 org.eclipse.core.resources 4 77 2015-01-30 09:43:07.763
+!MESSAGE C:\Users\samsung\Documents\GitHub\MDP-Rockers overlaps the workspace location: C:\Users\samsung\Documents\GitHub\MDP-Rockers
+
+!ENTRY org.eclipse.egit.ui 4 0 2015-01-30 09:43:36.097
+!MESSAGE Invalid project description.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Invalid project description.
+	at org.eclipse.core.internal.resources.Project.checkDescription(Project.java:175)
+	at org.eclipse.core.internal.resources.Project.assertCreateRequirements(Project.java:53)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:287)
+	at org.eclipse.core.internal.resources.Project.create(Project.java:269)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createExistingProject(ProjectUtils.java:156)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.access$0(ProjectUtils.java:119)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils$1.run(ProjectUtils.java:91)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2345)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2327)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:111)
+	at org.eclipse.egit.ui.internal.clone.ProjectUtils.createProjects(ProjectUtils.java:55)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.importProjects(GitImportWizard.java:241)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard.access$2(GitImportWizard.java:222)
+	at org.eclipse.egit.ui.internal.clone.GitImportWizard$2.run(GitImportWizard.java:192)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:121)
+Contains: OK
+Contains: C:\Users\samsung\Documents\GitHub\MDP-Rockers overlaps the workspace location: C:\Users\samsung\Documents\GitHub\MDP-Rockers
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2015-01-30 09:43:36.098
+!MESSAGE Invalid project description.
+!SUBENTRY 2 unknown 0 0 2015-01-30 09:43:36.098
+!MESSAGE OK
+!SUBENTRY 2 org.eclipse.core.resources 4 77 2015-01-30 09:43:36.098
+!MESSAGE C:\Users\samsung\Documents\GitHub\MDP-Rockers overlaps the workspace location: C:\Users\samsung\Documents\GitHub\MDP-Rockers
+!SESSION 2015-02-04 12:58:53.034 -----------------------------------------------
+eclipse.buildId=4.3.0.M20130911-1000
+java.version=1.8.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.standard.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.standard.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-02-04 13:00:13.800
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\samsung'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2015-02-05 16:59:57.407 -----------------------------------------------
+eclipse.buildId=4.3.0.M20130911-1000
+java.version=1.8.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.standard.product C:\Users\samsung\Documents\GitHub\MDP-Rockers\Simulator2\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.standard.product C:\Users\samsung\Documents\GitHub\MDP-Rockers\Simulator2\.project
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-02-05 17:00:41.024
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\samsung'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 4 0 2015-02-05 17:10:27.854
+!MESSAGE Exception caught during execution of add command
+!STACK 0
+org.eclipse.jgit.api.errors.JGitInternalException: Exception caught during execution of add command
+	at org.eclipse.jgit.api.AddCommand.call(AddCommand.java:208)
+	at org.eclipse.egit.core.op.CommitOperation.addUntracked(CommitOperation.java:215)
+	at org.eclipse.egit.core.op.CommitOperation.access$4(CommitOperation.java:203)
+	at org.eclipse.egit.core.op.CommitOperation$1.run(CommitOperation.java:189)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2345)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2327)
+	at org.eclipse.egit.core.op.CommitOperation.execute(CommitOperation.java:200)
+	at org.eclipse.egit.ui.internal.commit.CommitJob.run(CommitJob.java:94)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+Caused by: java.io.IOException: The process cannot access the file because another process has locked a portion of the file
+	at java.io.FileInputStream.read0(Native Method)
+	at java.io.FileInputStream.read(Unknown Source)
+	at org.eclipse.jgit.util.IO.readWholeStream(IO.java:215)
+	at org.eclipse.jgit.treewalk.WorkingTreeIterator.possiblyFilteredInputStream(WorkingTreeIterator.java:354)
+	at org.eclipse.jgit.treewalk.WorkingTreeIterator.getEntryContentLength(WorkingTreeIterator.java:510)
+	at org.eclipse.jgit.api.AddCommand.call(AddCommand.java:180)
+	... 8 more
+!SESSION 2015-02-06 09:22:08.031 -----------------------------------------------
+eclipse.buildId=4.3.0.M20130911-1000
+java.version=1.8.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.standard.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.standard.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-02-06 09:22:43.637
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\samsung'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 4 0 2015-02-06 09:43:15.534
+!MESSAGE Exception caught during execution of add command
+!STACK 0
+org.eclipse.jgit.api.errors.JGitInternalException: Exception caught during execution of add command
+	at org.eclipse.jgit.api.AddCommand.call(AddCommand.java:208)
+	at org.eclipse.egit.core.op.CommitOperation.addUntracked(CommitOperation.java:215)
+	at org.eclipse.egit.core.op.CommitOperation.access$4(CommitOperation.java:203)
+	at org.eclipse.egit.core.op.CommitOperation$1.run(CommitOperation.java:189)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2345)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2327)
+	at org.eclipse.egit.core.op.CommitOperation.execute(CommitOperation.java:200)
+	at org.eclipse.egit.ui.internal.commit.CommitJob.run(CommitJob.java:94)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+Caused by: java.io.IOException: The process cannot access the file because another process has locked a portion of the file
+	at java.io.FileInputStream.read0(Native Method)
+	at java.io.FileInputStream.read(Unknown Source)
+	at org.eclipse.jgit.util.IO.readWholeStream(IO.java:215)
+	at org.eclipse.jgit.treewalk.WorkingTreeIterator.possiblyFilteredInputStream(WorkingTreeIterator.java:354)
+	at org.eclipse.jgit.treewalk.WorkingTreeIterator.getEntryContentLength(WorkingTreeIterator.java:510)
+	at org.eclipse.jgit.api.AddCommand.call(AddCommand.java:180)
+	... 8 more
