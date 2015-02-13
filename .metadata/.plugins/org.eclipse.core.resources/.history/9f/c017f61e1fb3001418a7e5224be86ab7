@@ -14,10 +14,16 @@ import java.awt.event.ActionListener;
  
 public class Map extends JFrame implements ActionListener{
 	
+	 static final int WIDTH = 20;
+	 static final int LENGTH = 15;
+  //   int currCX = 18, currCY = 1, currFX = 17, currFY = 1;
+    
      Container pane = new Container();;
      JPanel gridPanel = new JPanel();
      JPanel savePanel = new JPanel();
      JButton[][] grid;
+ //    protected int[][] robotMap = new int[20][15];                             //store values of each grid during exploration
+ //    protected static int[][] realMap = new int[20][15];
      
      
      //Map constructor
@@ -28,12 +34,12 @@ public class Map extends JFrame implements ActionListener{
      
      public void addComponentsToMap(Container pane){
     	
-    	 gridPanel.setLayout(new GridLayout(20,15));              //set layout
+    	 gridPanel.setLayout(new GridLayout(WIDTH,LENGTH));              //set layout
          gridPanel.setPreferredSize(new Dimension(430,604));
-         grid = new JButton[20][15];      
+         grid = new JButton[WIDTH][LENGTH];      
          
-         for(int x = 0; x < 20; x++){
-         	for(int y = 0; y < 15; y++){
+         for(int x = 0; x < WIDTH; x++){
+         	for(int y = 0; y < LENGTH; y++){
        
                 grid[x][y] = new JButton();                              //creates new button, text can be removed 
                 grid[x][y].setName(x + "," + y);
@@ -84,23 +90,39 @@ public class Map extends JFrame implements ActionListener{
         }
     }
       
- 
+    public void initialize(){
+    	
+    	for(int x = 0; x < WIDTH; x++){
+          	for(int y = 0; y < LENGTH; y++){
+          		Global.realMap[x][y] = 0;                                     //no obstacle
+          		Global.robotMap[x][y] = 0;                                     //unexplored, unknown
+          	}
+         }
+    	
+    }
     public void saveMap() {
     	
-    	for(int x = 0; x < 20; x++){
-         	for(int y = 0; y < 15; y++){
+    	for(int x = 0; x < WIDTH; x++){
+         	for(int y = 0; y < LENGTH; y++){
          			System.out.print(Global.realMap[x][y] + ",");
          	}
          	System.out.println(" ");
         }
     	
     	Simulator simulator = new Simulator("Simulator");               //makes new ButtonGrid with 2 parameters
+     //   simulator.initialize();
         simulator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         simulator.addComponentsToMap(simulator.getContentPane());
         simulator.pack();                                               //sets appropriate size for frame
         simulator.setVisible(true);
         
-        
+        System.out.println("initial robot map ");
+        for(int x = 0; x < WIDTH; x++){
+         	for(int y = 0; y < LENGTH; y++){
+         			System.out.print(Global.robotMap[x][y] + ",");
+         	}
+         	System.out.println(" ");
+        }
      }
     
  

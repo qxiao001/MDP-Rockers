@@ -1,8 +1,10 @@
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame; //imports JFrame library
 import javax.swing.JButton; //imports JButton library
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -13,12 +15,20 @@ import java.awt.event.ActionListener;
  
 public class Simulator extends JFrame implements ActionListener{
 	
+	 static final int WIDTH = 20;
+	 static final int LENGTH = 15;
+//     int Global.currCX = 18, Global.currCY = 1, Global.currFX = 17, Global.currFY = 1;
+     //static boolean blocked = false;
      static boolean save = false;
      Container pane = new Container();;
      JPanel gridPanel = new JPanel();
      JPanel simulatePanel = new JPanel();
      JPanel explorePanel = new JPanel();
      JButton[][] grid,gridExplore;
+//     int[][] Global.realMap = new int[20][15];                              //store values of each grid
+//    int[][] Global.robotMap = new int[20][15];                             //store values of each grid during exploration
+     
+     
      
      //Map constructor
      public Simulator(String name){ 
@@ -28,27 +38,26 @@ public class Simulator extends JFrame implements ActionListener{
      
      public void addComponentsToMap(Container pane){
     	
-    	 gridPanel.setLayout(new GridLayout(20,15));              //set layout
+    	 gridPanel.setLayout(new GridLayout(WIDTH,LENGTH));              //set layout
          gridPanel.setPreferredSize(new Dimension(430,604));
-         grid = new JButton[20][15];                              //allocate the size of grid
-         explorePanel.setLayout(new GridLayout(20,15));
+         grid = new JButton[WIDTH][LENGTH];                              //allocate the size of grid
+         explorePanel.setLayout(new GridLayout(WIDTH,LENGTH));
          explorePanel.setPreferredSize(new Dimension(430,604));
-         gridExplore = new JButton[20][15];
+         gridExplore = new JButton[WIDTH][LENGTH];
          
-         for(int x = 0; x < 20; x++){
-         	for(int y = 0; y < 15; y++){
+         for(int x = 0; x < WIDTH; x++){
+         	for(int y = 0; y < LENGTH; y++){
        
                 grid[x][y] = new JButton();                              //creates new button, text can be removed 
                 grid[x][y].setName(x + "," + y);
                 grid[x][y].setBorder(BorderFactory.createRaisedBevelBorder());
                 
-                System.out.print(Global.realMap[x][y] + ",");
-                
-                if(Global.realMap[x][y] != 1)
+                if(Global.realMap[x][y]!=1){
                     grid[x][y].setBackground(Color.WHITE);
-                else
+                }
+                else{
                 	grid[x][y].setBackground(Color.BLACK);
-                
+                }
                 
                 grid[x][y].addActionListener(this);
                 gridPanel.add(grid[x][y]);                               //adds button to grid 
@@ -59,7 +68,6 @@ public class Simulator extends JFrame implements ActionListener{
                 gridExplore[x][y].setBackground(Color.CYAN);
                 explorePanel.add(gridExplore[x][y]); 
          	}
-         	System.out.println(" ");
          }
          
          JButton btnExplore = new JButton("Explore");
@@ -91,12 +99,12 @@ public class Simulator extends JFrame implements ActionListener{
         JButton button = (JButton)e.getSource();
         String name = button.getName();
         
-        if (name.equals("Fastest Path") == true){
-        	//
+        if (name.equals("Save") == true){
+        	saveMap();
         }
         else if(name.equals("Explore")){
         	setRobot();
-        	explore(1);
+        	explore();
         }
         else{
 	        int index = name.indexOf(",");
@@ -113,7 +121,24 @@ public class Simulator extends JFrame implements ActionListener{
 	        }
         }
     }
-   
+      
+
+    public void saveMap() {
+    	
+    	int count = 0;
+    	
+    	for(int x = 0; x < WIDTH; x++){
+         	for(int y = 0; y < LENGTH; y++){
+         			System.out.print(Global.realMap[x][y] + ",");
+         	}
+         	System.out.println(" ");
+        }
+    	
+    	
+    	save = true;
+    	//explore();
+     }
+    
     //    robot color is Pink
     //    X0X
     //    XXX
@@ -146,8 +171,8 @@ public class Simulator extends JFrame implements ActionListener{
         	}
         }
     }
-    
-    public void sensorReading(int readingFL, int readingFM, int readingFR, int readingML, int readingMR){
+    /*
+    public void sensorReading(int readingFL, int readingFM, int readingFR, int readingL, int readingR){
     	int currX,currY,x,y;
     
     	x = Global.currFX-1;
@@ -185,7 +210,7 @@ public class Simulator extends JFrame implements ActionListener{
     	}
     	
     }
-    
+    */
     public void moveForward(){
     	clearRobot();
     	int x = Global.currFX - Global.currCX;
@@ -194,6 +219,7 @@ public class Simulator extends JFrame implements ActionListener{
     	Global.currCY = Global.currCY + y;
     	Global.currFX = Global.currFX + x;
     	Global.currFY = Global.currFY + y;
+    	
     	paintRobotMap();
     	setRobot();
     }
@@ -217,9 +243,10 @@ public class Simulator extends JFrame implements ActionListener{
             else
             	{Global.currFX++; Global.currFY--;}
         }
+    
+        
         paintRobotMap();
         setRobot();
-        
     }
     
     public void turnLeft(){
@@ -241,169 +268,87 @@ public class Simulator extends JFrame implements ActionListener{
             else                       //facing right x=0,y=1
             	{Global.currFX--; Global.currFY--;}
         }
+    	
+    	
     	paintRobotMap();
     	setRobot();
-    	
     }
-
-	public void explore(final int z) {
-		System.out.println("Orientation: ");
+    public boolean obstacleInFront(){
+    	
+    	return false;
+    			
+    }
+	public void explore() {
+		final Robot robot=new Robot();
 		Thread t = new Thread() {
-			//@Override
 			public void run() {
-				int i=z;
-				Robot robot = new Robot();
-				char orientation;
-				int x,y;
-				boolean turnR = false;
-				boolean turnL = false;
-				boolean stop = false;
-				
-				
-				
-				while (((Global.currCX != 1) && (Global.currCY != 13)) || stop){
-					robot.senseEnvironment();
-					orientation = robot.checkOri();
-					
-					
-					if (orientation == 'U'){
-		
-						for (i = 1; i < 4; i++){
-						
-							x = Global.currFX;
-							y = Global.currFY;  
-							
-							if ((Global.robotMap[x-i][y-1] == 1) || (Global.robotMap[x-i][y] == 1) || (Global.robotMap[x-i][y+1] == 1)){ //any of the explored front grid is blocked
-								turnR = true;
-								break;
-							}	
-						}
-							
-						for (int j = 1; j < i; j++){
-							try {
-								sleep(800); // milliseconds
-							} catch (InterruptedException ex) {
-							}
-							moveForward();
-							robot.senseEnvironment();
-						}
-						
-						if (turnR){
-
-							turnR = false;
-							try {
-								sleep(800); // milliseconds
-							} 
-							catch (InterruptedException ex) {
-							}
-							turnRight();
-							robot.senseEnvironment();
-						}
+				robot.senseEnvironment();
+				paintRobotMap();
+				while(!(Global.currCX==1&&Global.currCY==14)){
+					while(!obstacleInFront()){
+					  robot.senseEnvironment();
+					  moveForward();
 					}
-					
-					if (orientation == 'R'){
-						
-						for (i = 1; i < 4; i++){
-						
-							x = Global.currFX;
-							y = Global.currFY;  
-							
-							if ((Global.robotMap[x-1][y+i] == 1) || (Global.robotMap[x][y+i] == 1) || (Global.robotMap[x+1][y+i] == 1)){ //any of the explored front grid is blocked
-								turnL = true;
-								break;
-							}	
-						}
-							
-						for (int j = 1; j < i; j++){
-							try {
-								sleep(800); // milliseconds
-							} catch (InterruptedException ex) {
-							}
-							moveForward();
-							robot.senseEnvironment();
-						}
-						
-						if (turnL){
-
-							turnL = false;
-							try {
-								sleep(800); // milliseconds
-							} 
-							catch (InterruptedException ex) {
-							}
-							turnLeft();	
-							robot.senseEnvironment();
-						}
-						
-						
-					}
-							
-							
-							
-							
-					
 				}
-								
-							
+				
+				
+////				for (int i = 0; i < 5; i++) {
+////					robot.senseEnvironment();
+////					moveForward();
+////					try {
+////						sleep(800); // milliseconds
+////					} catch (InterruptedException ex) {
+////					}
+////				}
+////				turnRight();
+////				for (int i = 0; i < 3; i++) {
+////					moveForward();
+////					try {
+////						sleep(800); // milliseconds
+////					} catch (InterruptedException ex) {
+////					}
+////
+////				}
+//				
+
 			}
 		};
 		t.start();
+		
+		System.out.println("robot map");
+		for(int i=0;i<20;i++){
+			for (int j=0;j<15;j++){
+				
+				System.out.print(Global.robotMap[i][j] + ",");
+			}
+			System.out.println("");
+		}
 
 	}
-	
-	
-	public void move() {
-		Thread t = new Thread() {
-		//	@Override
-			public void run() {
-					try {
-						sleep(800); // milliseconds
-					} catch (InterruptedException ex) {
-					}
-					moveForward();
-				
-			}
-		};
-		t.start();
-	}
-	
 	public void paintRobotMap(){
 		for (int i = 0; i < 20; i++){
         	for (int j = 0; j < 15; j++){ 
         		if (Global.exploreMap[i][j]==1){
-        			gridExplore[i][j].setBackground(Color.WHITE);
-        			if (Global.robotMap[i][j]==1)
-            		    gridExplore[i][j].setBackground(Color.RED);     //explored grid
+        			gridExplore[i][j].setBackground(Color.WHITE); 
+        		    if (Global.robotMap[i][j]==1)
+        		    gridExplore[i][j].setBackground(Color.RED);     //explored grid
         		}
-        		
         	}
         }
+		
 	}
-	/*
-	Thread t = new Thread() {
-		@Override
-		public void run() {
-			for (int i = 0; i < 3; i++) {
-				moveForward();
-				try {
-					sleep(800); // milliseconds
-				} catch (InterruptedException ex) {
-				}
-			}
-			for (int i = 0; i < 3; i++) {
-				turnRight();
-				try {
-					sleep(800); // milliseconds
-				} catch (InterruptedException ex) {
-				}
-
-			}
-
-		}
-	};
-	t.start();*/
     
-   
+    /*public static void main(String[] args) {
+    	
+        Simulator map = new Simulator("Map");                                 //makes new ButtonGrid with 2 parameters
+        map.initialize();
+        map.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        map.addComponentsToMap(map.getContentPane());
+        map.pack();                                               //sets appropriate size for frame
+        map.setVisible(true); 
+        
+        map.setRobot();
+        map.explore();
         //while the middle point of robot is not goal point -> loop
         	//loop: 
             //1)explore and update the map
@@ -411,5 +356,5 @@ public class Simulator extends JFrame implements ActionListener{
             //3)if there is obstacle -> turn
         //terminating condition: middle point of robot == goal point
 
-   
+    }*/
 }

@@ -249,7 +249,7 @@ public class Simulator extends JFrame implements ActionListener{
 	public void explore(final int z) {
 		System.out.println("Orientation: ");
 		Thread t = new Thread() {
-			//@Override
+			@Override
 			public void run() {
 				int i=z;
 				Robot robot = new Robot();
@@ -354,7 +354,7 @@ public class Simulator extends JFrame implements ActionListener{
 	
 	public void move() {
 		Thread t = new Thread() {
-		//	@Override
+			@Override
 			public void run() {
 					try {
 						sleep(800); // milliseconds
