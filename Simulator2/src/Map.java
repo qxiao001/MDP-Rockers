@@ -160,7 +160,7 @@ public class Map extends JFrame {
         }
     	
     	
-    	setRobot();
+    //	setRobot();
   
     	
      }

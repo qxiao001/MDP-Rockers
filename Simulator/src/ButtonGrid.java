@@ -79,8 +79,8 @@ public class ButtonGrid implements ActionListener{
         	
         }
 
-        public static void main(String[] args) {
+     /*   public static void main(String[] args) {
                 ButtonGrid buttonGrid = new ButtonGrid(20,15);//makes new ButtonGrid with 2 parameters
                 buttonGrid.setRobot(3,3,3,4);
-        }
+        }*/
 }

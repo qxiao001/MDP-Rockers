@@ -1,0 +1,12 @@
+
+public class Robot {
+	int [][] RobotMap;
+	int SL,SR,LF,MF,RF;                // how far is the obstacles , in grids
+	int SL_B,SR_B,LF_B,MF_B,RF_B;  // if there is obstacles in front, == 0
+	
+	public void senseEnvironment(int [][] realMap,int CX, int CY, int FX, int FY){
+		
+		
+	}
+
+}

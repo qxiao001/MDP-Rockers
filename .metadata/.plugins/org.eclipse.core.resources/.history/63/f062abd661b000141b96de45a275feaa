@@ -1,0 +1,15 @@
+import java.lang.*;
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Float f= new Float (3.1);
+		Integer i=new Integer (1);
+		long m= 2;
+		System.out.println(m+f+i);
+		
+				
+
+	}
+
+}

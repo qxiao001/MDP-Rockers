@@ -2,17 +2,28 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value=" pane " key="selection"/>
+		<item value="Global.currCY" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="currCY"/>
+			<item value="currFY"/>
+			<item value="currFX"/>
+			<item value="currCX"/>
+			<item value="robotMap"/>
+			<item value="realMap"/>
 			<item value=" pane "/>
 			<item value="pane"/>
-			<item value="simulator"/>
 		</list>
 		<list key="replacehistory">
+			<item value="Global.currCY"/>
+			<item value="Global.currFY"/>
+			<item value="Global.currFX"/>
+			<item value="Global.currCX"/>
+			<item value="Global.robotMap"/>
+			<item value="Global.realMap"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
