@@ -1,8 +1,0 @@
-
-public class Global {
-	
-	public static int[][] RobotMap = new int[20][15];
-	public static int[][] RealMap= new int[20][15];
-	public static int  currCX = 18, currCY = 1, currFX = 17, currFY = 1;
-
-}

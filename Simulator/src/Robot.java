@@ -48,9 +48,9 @@ public class Robot {
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCY - i - 2 < 0)
 					break; // is it right? so as not to less than 0
-				Global.exploreMap[Global.currCX][Global.currCY - i - 2] = 1;
-				if (Global.realMap[Global.currCX][Global.currCY - i - 2] == 1) {
-					Global.robotMap[Global.currCX][Global.currCY - i - 2] = 1;
+				Global.exploreMap[Global.currCX-1][Global.currCY - i - 2] = 1;
+				if (Global.realMap[Global.currCX-1][Global.currCY - i - 2] == 1) {
+					Global.robotMap[Global.currCX-1][Global.currCY - i - 2] = 1;
 					break;
 				}
 			}
@@ -59,9 +59,9 @@ public class Robot {
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCY + i + 2 > 14)
 					break; // is it right? so as not to less than 0
-				Global.exploreMap[Global.currCX][Global.currCY + i + 2] = 1;
-				if (Global.realMap[Global.currCX][Global.currCY + i + 2] == 1) {
-					Global.robotMap[Global.currCX][Global.currCY + i + 2] = 1;
+				Global.exploreMap[Global.currCX+1][Global.currCY + i + 2] = 1;
+				if (Global.realMap[Global.currCX+1][Global.currCY + i + 2] == 1) {
+					Global.robotMap[Global.currCX+1][Global.currCY + i + 2] = 1;
 					break;
 				}
 			}
@@ -70,9 +70,9 @@ public class Robot {
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCX - i - 2 < 0)
 					break; // is it right? so as not to less than 0
-				Global.exploreMap[Global.currCX - i - 2][Global.currCY] = 1;
-				if (Global.realMap[Global.currCX - i - 2][Global.currCY ] == 1) {
-					Global.robotMap[Global.currCX - i - 2][Global.currCY] = 1;
+				Global.exploreMap[Global.currCX - i - 2][Global.currCY+1] = 1;
+				if (Global.realMap[Global.currCX - i - 2][Global.currCY+1 ] == 1) {
+					Global.robotMap[Global.currCX - i - 2][Global.currCY+1] = 1;
 					break;
 				}
 			}
@@ -81,9 +81,9 @@ public class Robot {
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCX + i + 2 > 19)
 					break; // is it right? so as not to less than 0
-				Global.exploreMap[Global.currCX + i + 2][Global.currCY ] = 1;
-				if (Global.realMap[Global.currCX + i + 2][Global.currCY ] == 1) {
-					Global.robotMap[Global.currCX + i + 2][Global.currCY ] = 1;
+				Global.exploreMap[Global.currCX + i + 2][Global.currCY-1 ] = 1;
+				if (Global.realMap[Global.currCX + i + 2][Global.currCY-1 ] == 1) {
+					Global.robotMap[Global.currCX + i + 2][Global.currCY-1] = 1;
 					break;
 				}
 			}
@@ -97,9 +97,9 @@ public class Robot {
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCY - i - 2 < 0)
 					break; // is it right? so as not to less than 0
-				Global.exploreMap[Global.currCX][Global.currCY - i - 2] = 1;
-				if (Global.realMap[Global.currCX][Global.currCY - i - 2] == 1) {
-					Global.robotMap[Global.currCX][Global.currCY - i - 2] = 1;
+				Global.exploreMap[Global.currCX-1][Global.currCY - i - 2] = 1;
+				if (Global.realMap[Global.currCX-1][Global.currCY - i - 2] == 1) {
+					Global.robotMap[Global.currCX-1][Global.currCY - i - 2] = 1;
 					break;
 				}
 			}
@@ -108,9 +108,9 @@ public class Robot {
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCY + i + 2 > 14)
 					break; // is it right? so as not to less than 0
-				Global.exploreMap[Global.currCX][Global.currCY + i + 2] = 1;
-				if (Global.realMap[Global.currCX][Global.currCY + i + 2] == 1) {
-					Global.robotMap[Global.currCX][Global.currCY + i + 2] = 1;
+				Global.exploreMap[Global.currCX+1][Global.currCY + i + 2] = 1;
+				if (Global.realMap[Global.currCX+1][Global.currCY + i + 2] == 1) {
+					Global.robotMap[Global.currCX+1][Global.currCY + i + 2] = 1;
 					System.out.println("obstable! "+i);
 					break;
 				
@@ -121,9 +121,9 @@ public class Robot {
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCX - i - 2 < 0)
 					break; // is it right? so as not to less than 0
-				Global.exploreMap[Global.currCX  - i - 2][Global.currCY] = 1;
-				if (Global.realMap[Global.currCX - i - 2][Global.currCY ] == 1) {
-					Global.robotMap[Global.currCX  - i - 2][Global.currCY] = 1;
+				Global.exploreMap[Global.currCX  - i - 2][Global.currCY+1] = 1;
+				if (Global.realMap[Global.currCX - i - 2][Global.currCY+1 ] == 1) {
+					Global.robotMap[Global.currCX  - i - 2][Global.currCY+1] = 1;
 					break;
 				}
 			}
@@ -132,9 +132,9 @@ public class Robot {
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCX + i + 2 > 19)
 					break; // is it right? so as not to less than 0
-				Global.exploreMap[Global.currCX + i + 2][Global.currCY ] = 1;
-				if (Global.realMap[Global.currCX + i + 2][Global.currCY ] == 1) {
-					Global.robotMap[Global.currCX + i + 2][Global.currCY ] = 1;
+				Global.exploreMap[Global.currCX + i + 2][Global.currCY-1] = 1;
+				if (Global.realMap[Global.currCX + i + 2][Global.currCY-1 ] == 1) {
+					Global.robotMap[Global.currCX + i + 2][Global.currCY-1 ] = 1;
 					break;
 				}
 			}

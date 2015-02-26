@@ -1,0 +1,95 @@
+
+/**
+ * @(#)ircClient.java
+ * Zin Zin Tun
+ * @author
+ * @version 1.00 2015/2/17
+ */
+
+import java.io.*;
+import java.net.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+public class ircClient extends JFrame implements ActionListener {
+
+      private JLabel lblMsg;
+      private JTextArea taDisplay;
+      private JTextField txtMessage;
+      private static String name;
+      private Socket con;
+      //String ipAddress="192.168.1.102";
+      String ipAddress="10.27.49.92";
+      int port=7777;
+      String msg="";
+
+    public ircClient() {
+    	Container c= getContentPane();
+    	lblMsg= new JLabel("Enter Message");
+    	taDisplay= new JTextArea();
+    	txtMessage=new JTextField(20);
+    	txtMessage.addActionListener(this);
+    	JPanel pNorth= new JPanel();
+    	pNorth.setLayout(new FlowLayout(FlowLayout.CENTER));
+    	pNorth.add(lblMsg);
+    	pNorth.add(txtMessage);
+    	c.add(pNorth,BorderLayout.NORTH);
+    	c.add(taDisplay,BorderLayout.CENTER);
+
+    }
+public void actionPerformed(ActionEvent e)
+{
+	//taDisplay.append("Yes, go in the action performed\n");
+	msg=txtMessage.getText();
+	txtMessage.setText("");
+	sendMessage(name,msg);
+}
+public void sendMessage(String name,String msg)
+{
+	//taDisplay.append("Yes go inside the send Message Box.\n");
+	try{
+		DataOutputStream socketOut= new DataOutputStream(con.getOutputStream());
+		socketOut.writeUTF(name);
+		//taDisplay.append("Yes send name\n");
+		socketOut.writeUTF(msg);
+		//taDisplay.append("Yes send msg\n");
+		if(msg.equalsIgnoreCase("Terminate"))
+			System.exit(0);
+	}
+	catch(IOException e)
+	{
+		taDisplay.setText("Could not listen to prot 7777.\n");
+	}
+}
+public void connect()
+{
+	try{
+		con= new Socket(ipAddress,port);
+	System.out.println(name+ " connected to the server.");
+	DataInputStream socketIn= new DataInputStream(con.getInputStream());
+	DataOutputStream socketOut =new DataOutputStream(con.getOutputStream());
+	while(true)
+	{
+		String nameSend=socketIn.readUTF();
+		String msgSend= socketIn.readUTF();
+		taDisplay.append(nameSend+"\t>>"+msgSend+"\n");
+	}
+	}
+	catch(Exception e){
+		taDisplay.append("***"+e.getMessage()+"***\n");
+	}
+
+}
+
+public static void main(String[] args)
+{
+	name=JOptionPane.showInputDialog(null,"Enter your name", "Your login Name",JOptionPane.QUESTION_MESSAGE);
+
+	ircClient myFrame= new ircClient();
+	myFrame.setTitle("Client-"+name);
+	myFrame.setSize(500,300);
+	myFrame.setVisible(true);
+	myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	myFrame.connect();
+}
+}

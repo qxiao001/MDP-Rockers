@@ -2,35 +2,37 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Global.currCY" key="selection"/>
-		<item value="false" key="casesensitive"/>
+		<item value="fastestPath" key="selection"/>
+		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="simulator"/>
+			<item value="FatestPath"/>
+			<item value="Simulator"/>
 			<item value="currCY"/>
 			<item value="currFY"/>
 			<item value="currFX"/>
 			<item value="currCX"/>
 			<item value="robotMap"/>
-			<item value="realMap"/>
-			<item value=" pane "/>
-			<item value="pane"/>
 		</list>
 		<list key="replacehistory">
+			<item value="fastestPath"/>
+			<item value="FastestPath"/>
+			<item value="FatestPath"/>
 			<item value="Global.currCY"/>
 			<item value="Global.currFY"/>
 			<item value="Global.currFX"/>
 			<item value="Global.currCX"/>
 			<item value="Global.robotMap"/>
-			<item value="Global.realMap"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="257" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="381" key="DIALOG_HEIGHT"/>
-		<item value="539" key="DIALOG_X_ORIGIN"/>
-		<item value="355" key="DIALOG_Y_ORIGIN"/>
+		<item value="484" key="DIALOG_X_ORIGIN"/>
+		<item value="373" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>
