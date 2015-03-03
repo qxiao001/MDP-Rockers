@@ -1,3 +1,5 @@
+//package MapUI;
+
 import Global.Global;
 import MapUI.Map;
 

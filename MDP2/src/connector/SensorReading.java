@@ -40,7 +40,7 @@ public class SensorReading {
 			ori = 'R';
 			return 'R';
 		}
-		if (Global.currFX - Global.currCX == -1) {
+		if (Global.currFY - Global.currCY == -1) {
 			ori = 'L';
 			return 'L';
 		} else
@@ -50,6 +50,7 @@ public class SensorReading {
 	public void senseSL() {
 		switch (ori) {
 		case 'U':
+			SL=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCY - i - 2 < 0){
 					SL=i;
@@ -60,9 +61,10 @@ public class SensorReading {
 					break;
 				}
 			}
-			SL=-1;
+			
 			break;
 		case 'D':
+			SL=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCY + i + 2 > 14){
 					SL=i;
@@ -75,9 +77,10 @@ public class SensorReading {
 				}
 				
 			}
-			SL=-1;
+			
 			break;
 		case 'R':
+			SL=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCX - i - 2 < 0){
 					SL=i;
@@ -89,9 +92,10 @@ public class SensorReading {
 				}
 				
 			}
-			SL=-1;
+			
 			break;
 		case 'L':
+			SL=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCX + i + 2 > 19){
 					SL=i;
@@ -102,7 +106,7 @@ public class SensorReading {
 					break;
 				}
 			}
-			SL=-1;
+			
 			break;
 		}
 
@@ -170,6 +174,7 @@ public class SensorReading {
 	public void senseFR() {
 		switch (ori) {
 		case 'D':
+			FR=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCX + i + 2 > 19){
 					FR=i;
@@ -180,9 +185,10 @@ public class SensorReading {
 					break;
 				}
 			}
-			FR=-1;
+			
 			break;
 		case 'U':
+			FR=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCX - i - 2 < 0){
 					FR=i;
@@ -193,12 +199,15 @@ public class SensorReading {
 					break;
 				}
 			}
-			FR=-1;
+			
 			break;
 		case 'L':
+			System.out.println("inside left orientation************************** ");
+			FR=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCY - i - 2 < 0){
 					FR=i;
+					System.out.println("inside wall checking : the i is : "+ i);
 					break;
 				}
 				if (Global.realMap[Global.currCX-1][Global.currCY - i - 2] == 1) {
@@ -206,9 +215,10 @@ public class SensorReading {
 					break;
 				}
 			}
-			FR=-1;
+			
 			break;
 		case 'R':
+			FR=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCY + i + 2 > 14){
 					FR=i;
@@ -219,7 +229,7 @@ public class SensorReading {
 					break;
 				}
 			}
-			FR=-1;
+			
 			break;
 		}
 
@@ -227,6 +237,7 @@ public class SensorReading {
 	public void senseFL() {
 		switch (ori) {
 		case 'D':
+			FL=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCX + i + 2 > 19){
 					FL=i;
@@ -237,9 +248,10 @@ public class SensorReading {
 					break;
 				}
 			}
-			FL=-1;
+			
 			break;
 		case 'U':
+			FL=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCX - i - 2 < 0){
 					FL=i;
@@ -250,9 +262,10 @@ public class SensorReading {
 					break;
 				}
 			}
-			FL=-1;
+			
 			break;
 		case 'L':
+			FL=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCY - i - 2 < 0){
 					FL=i;
@@ -263,9 +276,10 @@ public class SensorReading {
 					break;
 				}
 			}
-			FL=-1;
+			
 			break;
 		case 'R':
+			FL=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCY + i + 2 > 14){
 					FL=i;
@@ -276,7 +290,7 @@ public class SensorReading {
 					break;
 				}
 			}
-			FL=-1;
+			
 			break;
 		}
 
@@ -284,6 +298,7 @@ public class SensorReading {
 	public void senseFM() {
 		switch (ori) {
 		case 'D':
+			FM=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCX + i + 2 > 19){
 					FM=i;
@@ -294,9 +309,10 @@ public class SensorReading {
 					break;
 				}
 			}
-			FM=-1;
+			
 			break;
 		case 'U':
+			FM=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCX - i - 2 < 0){
 					FM=i;
@@ -307,9 +323,10 @@ public class SensorReading {
 					break;
 				}
 			}
-			FM=-1;
+			
 			break;
 		case 'L':
+			FM=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCY - i - 2 < 0){
 					FM=i;
@@ -320,9 +337,10 @@ public class SensorReading {
 					break;
 				}
 			}
-			FM=-1;
+			
 			break;
 		case 'R':
+			FM=-1;
 			for (int i = 0; i < Global.senseRange; i++) {
 				if (Global.currCY + i + 2 > 14){
 					FM=i;
@@ -333,7 +351,7 @@ public class SensorReading {
 					break;
 				}
 			}
-			FM=-1;
+			
 			break;
 		}
 		

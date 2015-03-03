@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import connector.fadeString;
 import Global.*;
+import Obstacle.Descriptor;
 import connector.*;
 
 public class Robot {
@@ -25,6 +26,7 @@ public class Robot {
 	public void senseEnvironment() throws IOException {
 		// robot will update 5 readings to the explore map and robot map
 		checkOri();
+
 //		
 //		String str=Global.c.myReceive();
 //		System.out.println("Recevied from rpi(we do nth):"+str);
@@ -33,12 +35,16 @@ public class Robot {
 //		System.out.println("Recevied from rpi(pass this string to process)]"+ ":"+str1);
 //		String str1 = fadeString.getString(); // our fade string
 		String str1 = sensorReading.senseEnvironment();
+		
 		getReadings(str1);
 		senseSL();
 		senseSR();
 		senseFL();
 		senseFR();
 		senseFM();
+//		Descriptor.generateExploreMap();
+//		Descriptor.generateObstacleMap();
+		Simulator.paintRobotMap();
 
 	}
 
@@ -86,7 +92,7 @@ public class Robot {
 			ori = 'R';
 			return 'R';
 		}
-		if (Global.currFX - Global.currCX == -1) {
+		if (Global.currFY - Global.currCY == -1) {
 			ori = 'L';
 			return 'L';
 		} else
@@ -96,44 +102,44 @@ public class Robot {
 	public void senseSL() {
 		int clean=1; 
 		System.out.println("The left sensor vlaue is: "+ L +".");
-		if(L==-1 || L>3) //no obs to set
-			{L=3;clean=0;}
+		if(L==-1 || L>=3) //no obs to set
+			{L=2;clean=0;}
 		switch (ori) {
 		case 'U':
-			for(int i=0;i<L;i++){
+			for(int i=0;i<=L;i++){
 				if((Global.currCY-i-2)<0) 
 					break;
 				Global.exploreMap[Global.currCX][Global.currCY - i - 2] = 1;
 			}
 			//System.out.println("The out of bound index is" + (Global.currCY-L-2));
-			if(((Global.currCY - L -2)>=0 )&&((Global.currCY - L -2)<15))
+			if((Global.currCY - L -2)>=0 )
 				Global.robotMap[Global.currCX ][Global.currCY - L -2] = clean;
 			break;
 		case 'D':
-			for (int i = 0; i < L; i++) {
+			for (int i = 0; i <= L; i++) {
 				if (Global.currCY + i + 2 > 14)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX][Global.currCY + i + 2] = 1;
 			}
-			if(((Global.currCY + L + 2) >=0 )&&((Global.currCY + L + 2) <15))
+			if(((Global.currCY + L + 2) <15))
 				Global.robotMap[Global.currCX ][Global.currCY + L + 2] = clean;
 			break;
 		case 'R':
-			for (int i = 0; i < L; i++) {
+			for (int i = 0; i <= L; i++) {
 				if (Global.currCX - i - 2 < 0)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX - i - 2][Global.currCY ] = 1;
 			}
-			if((Global.currCX - L - 2>=0 )&&(Global.currCX - L - 2 <20))
+			if((Global.currCX - L - 2>=0 ))
 				Global.robotMap[Global.currCX - L - 2][Global.currCY ] = clean;
 			break;
 		case 'L':
-			for (int i = 0; i < L; i++) {
+			for (int i = 0; i <= L; i++) {
 				if (Global.currCX + i + 2 > 19)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX + i + 2][Global.currCY ] = 1;
 			}
-			if((Global.currCX + L + 2>=0 )&&(Global.currCX + L + 2 <20))
+			if((Global.currCX + L + 2 <20))
 				Global.robotMap[Global.currCX + L + 2][Global.currCY ] = clean;
 			break;
 		}
@@ -143,43 +149,43 @@ public class Robot {
 	public void senseSR() {
 		int clean=1; 
 		System.out.println("The right sensor vlaue is: "+ R+".");
-		if(R==-1 || R>3)
-			{R=3;clean=0;}
+		if(R==-1 || R>=3)
+			{R=2;clean=0;}
 		switch (ori) {
 		case 'D':
-			for (int i = 0; i < R; i++) {
+			for (int i = 0; i <= R; i++) {
 				if (Global.currCY - i - 2 < 0)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX ][Global.currCY - i - 2] = 1;
 			}
-			if((Global.currCY - R - 2 >0 )&&(Global.currCY - R - 2 <15))
+			if((Global.currCY - R - 2 >0 ))
 				Global.robotMap[Global.currCX ][Global.currCY - R - 2] = clean;
 			break;
 		case 'U':
-			for (int i = 0; i < R; i++) {
+			for (int i = 0; i <= R; i++) {
 				if (Global.currCY + i + 2 > 14)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX ][Global.currCY + i + 2] = 1;
 			}
-			if((Global.currCY + R + 2 >0 )&&(Global.currCY + R + 2 <15))
+			if((Global.currCY + R + 2 <15))
 				Global.robotMap[Global.currCX ][Global.currCY + R + 2] = clean;
 			break;
 		case 'L':
-			for (int i = 0; i < R; i++) {
-				if (Global.currCX - R < 0)
+			for (int i = 0; i <= R; i++) {
+				if (Global.currCX - i-2 < 0)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX - i - 2][Global.currCY] = 1;
 			}
-			if((Global.currCX - R - 2>0 )&&(Global.currCX - R - 2<20))
+			if((Global.currCX - R - 2>0 ))
 				Global.robotMap[Global.currCX - R - 2][Global.currCY ] = clean;
 			break;
 		case 'R':
-			for (int i = 0; i < R; i++) {
+			for (int i = 0; i <= R; i++) {
 				if (Global.currCX + i + 2 > 19)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX + i + 2][Global.currCY ] = 1;
 			}
-			if((Global.currCX + R + 2>0 )&&(Global.currCX + R + 2<20))
+			if((Global.currCX + R + 2<20))
 				Global.robotMap[Global.currCX + R + 2][Global.currCY ] = clean;
 			break;
 		}
@@ -189,44 +195,44 @@ public class Robot {
 	public void senseFR() {
 		int clean=1; 
 		System.out.println("The right front (f3) sensor vlaue is: "+ F3+".");
-		if(F3==-1 || F3>3)
-			{F3=3;clean=0;}
+		if(F3==-1 || F3>=3)
+			{F3=2;clean=0;}
 		switch (ori) {
 		case 'D':
-			for (int i = 0; i < F3; i++) {
+			for (int i = 0; i <= F3; i++) {
 				if (Global.currCX + i + 2 > 19)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX + i + 2][Global.currCY - 1] = 1;
 			}
-			if((Global.currCX + F3 + 2>0 )&&(Global.currCX + F3 + 2<20))
+			if((Global.currCX + F3 + 2<20))
 				Global.robotMap[Global.currCX + F3 + 2][Global.currCY - 1] = clean;
 			break;
 		case 'U':
-			for (int i = 0; i < F3; i++) {
+			for (int i = 0; i <= F3; i++) {
 				if (Global.currCX - i - 2 < 0)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX - i - 2][Global.currCY + 1] = 1;
 			}
-			if((Global.currCX - F3 -2 >0 )&&(Global.currCX - F3 - 2<20))
+			if((Global.currCX - F3 -2 >0 ))
 				Global.robotMap[Global.currCX - F3 - 2][Global.currCY + 1] = clean;
 			break;
 		case 'L':
-			for (int i = 0; i < F3; i++) {
+			for (int i = 0; i <= F3; i++) {
 				if (Global.currCY - i - 2 < 0)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX - 1][Global.currCY - i - 2] = 1;
 			}
-			if((Global.currCY - F3 - 2>0 )&&(Global.currCY - F3 - 2<15))
+			if((Global.currCY - F3 - 2>0 ))
 			Global.robotMap[Global.currCX - 1][Global.currCY - F3 - 2] = clean;
 
 			break;
 		case 'R':
-			for (int i = 0; i < F3; i++) {
+			for (int i = 0; i <= F3; i++) {
 				if (Global.currCY + i + 2 > 14)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX + 1][Global.currCY + i + 2] = 1;
 			}
-			if((Global.currCY + F3 + 2>0 )&&(Global.currCY + F3 + 2<15))
+			if((Global.currCY + F3 + 2<15))
 			Global.robotMap[Global.currCX + 1][Global.currCY + F3 + 2] = clean;
 
 			break;
@@ -237,45 +243,46 @@ public class Robot {
 	public void senseFL() {
 		int clean=1; 
 		System.out.println("The left front (f1) sensor vlaue is: "+ F1+".");
-		if(F1==-1 || F1>3)
-			{F1=3;clean=0;}
+		if(F1==-1 || F1>=3)
+			{F1=2;clean=0;}
 		switch (ori) {
 		case 'D':
-			for (int i = 0; i < F1; i++) {
+			for (int i = 0; i <= F1; i++) {
 				if (Global.currCX + i + 2 > 19)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX + i + 2][Global.currCY + 1] = 1;
 			}
-			if((Global.currCX + F1 + 2>0 )&&(Global.currCX + F1 + 2<20))
+			if((Global.currCX + F1 + 2<20))
 			Global.robotMap[Global.currCX + F1 + 2][Global.currCY + 1] = clean;
 
 			break;
 		case 'U':
-			for (int i = 0; i < F1; i++) {
-				if (Global.currCX - i - 2 < 0)
-					break; // is it right? so as not to less than 0
+			for (int i = 0; i <= F1; i++) {
+				if (Global.currCX - i - 2 < 0  )
+					break; 
+				// is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX - i - 2][Global.currCY - 1] = 1;
 			}
-			if((Global.currCX - F1 - 2>0 )&&(Global.currCX - F1 - 2<20))
+			if((Global.currCX - F1 - 2>0 ))
 			Global.robotMap[Global.currCX - F1 - 2][Global.currCY - 1] = clean;
 
 			break;
 		case 'L':
-			for (int i = 0; i < F1; i++) {
+			for (int i = 0; i <= F1; i++) {
 				if (Global.currCY - i - 2 < 0)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX + 1][Global.currCY - i - 2] = 1;
 			}
-			if((Global.currCY - F1 - 2>0 )&&(Global.currCY - F1 - 2<15))
+			if((Global.currCY - F1 - 2>0 ))
 				Global.robotMap[Global.currCX + 1][Global.currCY - F1 - 2] = clean;
 			break;
 		case 'R':
-			for (int i = 0; i < F1; i++) {
+			for (int i = 0; i <= F1; i++) {
 				if (Global.currCY + i + 2 > 14)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX - 1][Global.currCY + i + 2] = 1;
 			}
-			if((Global.currCY + F1 + 2>0 )&&(Global.currCY + F1 + 2<15))
+			if((Global.currCY + F1 + 2<15))
 			Global.robotMap[Global.currCX - 1][Global.currCY + F1 + 2] = clean;
 
 			break;
@@ -286,46 +293,48 @@ public class Robot {
 	public void senseFM() {
 		int clean=1; 
 		System.out.println("The middle front (f2) sensor vlaue is: "+ F2+".");
-		if(F2==-1 || F2>3)
-			{F2=3;clean=0;}
+		if(F2==-1 || F2>=3 )
+			{F2=2;clean=0;}
 		switch (ori) {
 		case 'D':
-			for (int i = 0; i < F2; i++) {
-				if (Global.currCX + i + 2 > 19)
+			for (int i = 0; i <= F2; i++) {
+				if (Global.currCX + i + 2 > 19 )
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX + i + 2][Global.currCY] = 1;
 			}
-			if((Global.currCX + F2 + 2>0 )&&(Global.currCX + F2 + 2<20))
+			if((Global.currCX + F2 + 2<20))
 			Global.robotMap[Global.currCX + F2 + 2][Global.currCY] = clean;
 
 			break;
 		case 'U':
-			for (int i = 0; i < F2; i++) {
-				if (Global.currCX - i - 2 < 0)
+			System.out.println("F2 IS :" + F2);
+			for (int i = 0; i <= F2; i++) {
+				if (Global.currCX - i - 2 < 0 )
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX - i - 2][Global.currCY] = 1;
 			}
-			if((Global.currCX - F2 - 2>0 )&&(Global.currCX - F2 - 2<20))
+			if((Global.currCX - F2 - 2>0 )){
+		    System.out.println("Facing up clean value is  : " + clean );
 			Global.robotMap[Global.currCX - F2 - 2][Global.currCY] = clean;
-
+			}
 			break;
 		case 'L':
-			for (int i = 0; i < F2; i++) {
-				if (Global.currCY - i - 2 < 0)
+			for (int i = 0; i <= F2; i++) {
+				if (Global.currCY - i - 2 < 0 )
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX][Global.currCY - i - 2] = 1;
 			}
-			if((Global.currCY - F2 - 2>0 )&&(Global.currCY - F2 - 2<15))
+			if((Global.currCY - F2 - 2>0 ))
 			Global.robotMap[Global.currCX][Global.currCY - F2 - 2] = clean;
 
 			break;
 		case 'R':
-			for (int i = 0; i < F2; i++) {
+			for (int i = 0; i <= F2; i++) {
 				if (Global.currCY + i + 2 > 14)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX][Global.currCY + i + 2] = 1;
 			}
-			if((Global.currCY + F2 + 2>0 )&&(Global.currCY + F2 + 2<15))
+			if((Global.currCY + F2 + 2<15))
 				Global.robotMap[Global.currCX][Global.currCY + F2 + 2] = clean;
 
 				break;

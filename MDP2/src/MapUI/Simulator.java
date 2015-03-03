@@ -1,10 +1,14 @@
 package MapUI;
+
 import Global.*;
+import Obstacle.Descriptor;
 import connector.*;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame; //imports JFrame library
 import javax.swing.JButton; //imports JButton library
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
@@ -16,16 +20,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-
-public class Simulator extends JFrame implements ActionListener {
+public class Simulator extends JFrame implements ActionListener  {
 
 	static boolean save = false;
 	Container pane = new Container();;
 	JPanel gridPanel = new JPanel();
 	JPanel simulatePanel = new JPanel();
 	JPanel explorePanel = new JPanel();
-	JButton[][] grid, gridExplore;
+	JButton[][] grid;
+	static JButton[][] gridExplore;
     Robot robot = new Robot();
+    JFormattedTextField timeTextF = new JFormattedTextField();
+    JFormattedTextField coverageTextF = new JFormattedTextField();
+    JFormattedTextField speedTextF = new JFormattedTextField();
+    int timeLimit = 360, coverageLimit = 101, steps = 7;
 
 	// Map constructor
 	public Simulator(String name) {
@@ -74,16 +82,35 @@ public class Simulator extends JFrame implements ActionListener {
 		btnExplore.addActionListener(this);
 
 		JButton btnFastestPath = new JButton("Fastest Path");
-		btnFastestPath.setName("FastestPath");
+		btnFastestPath.setName("Fastest Path");
 		btnFastestPath.setBackground(Color.WHITE);
 		btnFastestPath.setAlignmentX(CENTER_ALIGNMENT);
 		btnFastestPath.addActionListener(this);
-
-		simulatePanel.add(btnExplore, BorderLayout.NORTH);
-		simulatePanel.add(btnFastestPath, BorderLayout.SOUTH);
+        
+		JLabel timeLabel = new JLabel("Time Limit (s)");
+		timeTextF.setValue("360");
+		timeTextF.setName("Time Limit");
+		timeTextF.setPreferredSize(new Dimension(40,20));
+		
+		JLabel coverageLabel = new JLabel("Coverage Limit (%)");
+		coverageTextF.setValue("101");
+     	coverageTextF.setName("Coverage Limit");
+     	coverageTextF.setPreferredSize(new Dimension(40,20));
+     	
+		JLabel speedLabel = new JLabel("Speed (step/s)");
+     	speedTextF.setValue("7");
+     	speedTextF.setName("Speed");
+     	speedTextF.setPreferredSize(new Dimension(40,20));
+     	
+		simulatePanel.add(btnExplore);
+		simulatePanel.add(btnFastestPath);
+     	simulatePanel.add(timeLabel);
+     	simulatePanel.add(timeTextF);
+     	simulatePanel.add(coverageLabel);
+     	simulatePanel.add(coverageTextF);
+     	simulatePanel.add(speedLabel);
+     	simulatePanel.add(speedTextF);
 		simulatePanel.setPreferredSize(new Dimension(460, 25));
-		// simulatePanel.setLayout(new BoxLayout(simulatePanel,
-		// BoxLayout.Y_AXIS));
 
 		pane.add(gridPanel, BorderLayout.WEST);
 		pane.add(simulatePanel, BorderLayout.CENTER);
@@ -94,19 +121,19 @@ public class Simulator extends JFrame implements ActionListener {
 	// Action listener. Do something when any of the button is clicked
 	public void actionPerformed(ActionEvent e) {
 		JButton button = (JButton) e.getSource();
-		String name = button.getName();
+		String btnName = button.getName();
 
-		if (name.equals("Fastest Path") == true) {
+		if (btnName.equals("Fastest Path") == true) {
 			//
 		} 
-		else if (name.equals("Explore")) {
+		else if (btnName.equals("Explore")) {
 			setRobot();
 			explore();
 		} 
 		else {
-			int index = name.indexOf(",");
-			int x = Integer.parseInt(name.substring(0, index));
-			int y = Integer.parseInt(name.substring(index + 1));
+			int index = btnName.indexOf(",");
+			int x = Integer.parseInt(btnName.substring(0, index));
+			int y = Integer.parseInt(btnName.substring(index + 1));
 
 			if (button.getBackground() == Color.WHITE) { // set obstacle
 				button.setBackground(Color.BLACK);
@@ -118,7 +145,7 @@ public class Simulator extends JFrame implements ActionListener {
 			}
 		}
 	}
-
+	 //*********************************The end of robot Movement************************************* 
 	// Display robot
 	public void setRobot() {
 		int x;
@@ -148,15 +175,16 @@ public class Simulator extends JFrame implements ActionListener {
 	}
 
 	public void moveForward() {
-		clearRobot();
-		try {
+      /*  try {
 			
 			Global.c.mySend(Global.moveForward);
 			System.out.println("I have sent robot to move forward.");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}  */
+		System.out.println("I have sent robot to move forward.");
+		
 		int x = Global.currFX - Global.currCX;
 		int y = Global.currFY - Global.currCY;
 		Global.currCX = Global.currCX + x;
@@ -169,19 +197,23 @@ public class Simulator extends JFrame implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		clearRobot();
 		paintRobotMap();
 		setRobot();
 	}
 
 	public void turnRight() {
-		clearRobot();
-		try {
-			Global.c.mySend(Global.turnRight);
-			System.out.println("I have sent robot to turn Right.");
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
+		/*  try {
+		
+		Global.c.mySend(Global.turnRight);
+		System.out.println("I have sent robot to turn right.");
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}  */
+	System.out.println("I have sent robot to turn right.");
+	
 		int x = Global.currFX - Global.currCX;
 		int y = Global.currFY - Global.currCY;
 
@@ -208,20 +240,24 @@ public class Simulator extends JFrame implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		clearRobot();
 		paintRobotMap();
 		setRobot();
 
 	}
 
 	public void turnLeft() {
-		clearRobot();
-		try {
-			Global.c.mySend(Global.turnLeft);
-			System.out.println("I have sent robot to turn Left.");
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		/*  try {
+		
+		Global.c.mySend(Global.turnLeft);
+		System.out.println("I have sent robot to turn left.");
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}  */
+		
+	System.out.println("I have sent robot to turn left.");
+	
 		int x = Global.currFX - Global.currCX;
 		int y = Global.currFY - Global.currCY;
 
@@ -253,10 +289,24 @@ public class Simulator extends JFrame implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		clearRobot();
 		paintRobotMap();
 		setRobot();
 	}
-	  
+	public static void paintRobotMap() {
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 15; j++) {
+				if (Global.exploreMap[i][j] == 1) {
+					gridExplore[i][j].setBackground(Color.WHITE);
+					
+					
+				}
+				if (Global.robotMap[i][j] == 1)
+					gridExplore[i][j].setBackground(Color.RED); 
+			}
+		}
+	}
+	 //*********************************The end of robot Movment************************************* 
     //return true if
     //the top left grid have not yet been explored and
 	//(top left grid will not be explored because of the position of the side sensor)
@@ -410,26 +460,21 @@ public class Simulator extends JFrame implements ActionListener {
    //while reach goal = true
    public boolean mapRight3RowsExplored(){
 	      boolean rightIsExplored = true;
-	      boolean stop = false;
 	      if (Global.currCY < 13)
      	  {
-	        	for (int i = Global.currCY + 2; i < 15; i++)
+	    	    for (int j = -1; j < 2; j++)
 	        	{
-	        		for (int j = -1; j < 2; j++)
+	    	    	for (int i = Global.currCY + 2; i < 15; i++)
 	        		{
 	        			if ((Global.exploreMap[Global.currCX + j][i] == 1) && (Global.robotMap[Global.currCX + j][i] == 1)) //obstacle found
-	        			{
-	        				stop = true;
 		        	 		break;
-	        			}
+	        			
 	        			else if (Global.exploreMap[Global.currCX + j][i] == 0) //grid unexplored
 		        	 	{
 		        	 		rightIsExplored = false;
 		        	 		break;
 		        	 	}
 	        		}
-	        		if (!rightIsExplored)
-	        			break;
 	        	}
      	 }
 	      return rightIsExplored;
@@ -437,28 +482,21 @@ public class Simulator extends JFrame implements ActionListener {
    
    public boolean mapLeft3RowsExplored(){
 	      boolean leftIsExplored = true;
-	      boolean stop = false;
 	      if (Global.currCY > 5)
 	      {
-	        	 for (int i = Global.currCY - 2; i > 3; i--)
-	        	 {
-	        		for (int j = -1; j < 2; j++)
-	        		{
+	    	  for (int j = -1; j < 2; j++)
+	    	  {
+	    		  for (int i = Global.currCY - 2; i > 3; i--)
+	        	  {
 		        	 	if ((Global.exploreMap[Global.currCX + j][i] == 1) && (Global.robotMap[Global.currCX + j][i] == 1)) //obstacle found
-		        	 	{
-		        	 		stop = true;
-		        	 		break;
-		        	 	}
+		        	 	    break;
 		        	 	else if (Global.exploreMap[Global.currCX + j][i] == 0) //grid unexplored
 		        	 	{
 		        	 		leftIsExplored = false;
 		        	 		break;
-		        	 	}
-		        	 		
-	        		}
-	        		if (!leftIsExplored || stop)
-	        			break;
+		        	 	}	
 	        	 }
+	         }
 	      }
 	      return leftIsExplored;
    }
@@ -485,30 +523,44 @@ public class Simulator extends JFrame implements ActionListener {
 }
    
 	public void explore() {
-		
 		Thread t = new Thread() {
-		//	@Override
+			//@Override
 			public void run() {
 				char ori = ' ';
 				char lastOri = ' ';
-				int count=0;
-				int moveDownwardCounter1 = 0, moveDownwardCounter2 = 0, minX = 0;
+				int minX = 0;
+				int count=1;
+				int pathCX = -1, pathCY = -1;     //turning point to go down
 				boolean downRightIsUnexplored = false, upRightUnexplored = false, rightRightUnexplored = false, middleUnexplored = false;
-				boolean reachTop = false, reachGoal = false;
+				boolean reachTop = false, reachGoal = false, stop = false;
 				boolean anotherPath = false;
-				boolean mapLeftBlocked = false, mapLeftBlocked2 = false;
+				boolean mapLeftBlocked = false;   //after reaching goal, dead end found when facing left
+				boolean cave = false;             //before reaching goal, cave found
+				//mapLeftBlocked2 = false
 				boolean turnBack = false, turnBack2 = false;
+				boolean mapRightBlocked = false;  //before reaching goal, dead end found when facing right
+							
+				timeLimit = Integer.parseInt(timeTextF.getText());
+				coverageLimit = Integer.parseInt(coverageTextF.getText());
+				steps = Integer.parseInt(speedTextF.getText());
+				
+				System.out.println("time limit: " + timeLimit);
+				System.out.println("coverage limit: " + coverageLimit);
+				System.out.println("steps/s: " + steps);
+				long startComputeTime = System.nanoTime();
+				
 				try {
 					robot.senseEnvironment();
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
-				while (true) 
+				while (!stop ) 
 				{
+				//	count++;
 					lastOri = ori;
-					count++;
 					
 					ori = robot.checkOri();
 					
@@ -521,7 +573,6 @@ public class Simulator extends JFrame implements ActionListener {
 							//front is empty
 							if ((Global.robotMap[Global.currFX - 1][Global.currFY + 1] == 0) && (Global.robotMap[Global.currFX - 1][Global.currFY] == 0) && (Global.robotMap[Global.currFX - 1][Global.currFY - 1] == 0))
 							{
-								System.out.println("We have now checked the front grids learance.");
 								if (!reachGoal)
 								{
 									if (leftUnexplored(ori))
@@ -530,15 +581,20 @@ public class Simulator extends JFrame implements ActionListener {
 									else if ((lastOri != 'R') && leftEmpty(ori))  //left is sensed but not really explored
 										turnLeft();
 									else
-									{
-										System.out.println("Yes I am really movingforward.");
-										moveForward();	
-									}	
+										moveForward();		
 								}
 								//reached goal
 								else
 								{
-									if (!mapFront3ColumnsExplored())  //robot does not explore middle area of arena
+									if (cave)
+										moveForward();
+									
+									else if (cave && leftEmpty(ori))
+									{
+										turnLeft();
+									}
+									
+									else if (!mapFront3ColumnsExplored())  //robot does not explore middle area of arena
 									{
 										moveForward();
 										middleUnexplored = true;
@@ -546,7 +602,7 @@ public class Simulator extends JFrame implements ActionListener {
 										
 									else if (leftUnexplored(ori))
 										turnLeft();
-																                                    
+																								                                    
 									else if (mapLeftBlocked && leftEmpty(ori) && !middleUnexplored && (Global.currCX < minX)) //up->left, just came out from a dead end on left, going left
 										turnLeft();
 									
@@ -560,12 +616,22 @@ public class Simulator extends JFrame implements ActionListener {
 							//front is blocked
 							else
 							{
-								if (Global.currCY == 1)  //at left wall
+								if (cave && leftEmpty(ori))
+								{
+									turnLeft();
+								}
+								
+								else if (Global.currCY == 1)  //at left wall
 									turnRight();
 								
 								else if (Global.currCY == 13)  //at right wall
 									turnLeft();
 								
+								else if (mapLeftBlocked && !leftEmpty(ori))
+								{
+									cave = true;
+									turnRight();
+								}
 								else if (mapLeftBlocked && (Global.currCX < minX) && !middleUnexplored && leftEmpty(ori)) //came out from a dead end on left, going left
 									turnLeft();
 								
@@ -589,7 +655,11 @@ public class Simulator extends JFrame implements ActionListener {
 						//at top wall
 						else
 						{
-							if ((Global.currCY != 1) && (Global.exploreMap[Global.currCX - 1][Global.currCY - 2] == 0) && (Global.exploreMap[Global.currCX - 1][Global.currCY + 2] == 0)) //top left and right grids unexplored
+							if (cave && leftEmpty(ori))
+							{
+								turnLeft();
+							}
+							else if ((Global.currCY != 1) && (Global.exploreMap[Global.currCX - 1][Global.currCY - 2] == 0) && (Global.exploreMap[Global.currCX - 1][Global.currCY + 2] == 0)) //top left and right grids unexplored
 							{
 								turnLeft();
 								upRightUnexplored = true;
@@ -602,8 +672,11 @@ public class Simulator extends JFrame implements ActionListener {
 					/*************************************************** Facing Right ********************************************/
 					else if (ori == 'R') 
 					{
+						if ((Global.currCX == pathCX) && (Global.currCY == pathCY))  //come back from right, going down from the first 3 empty grids counted from left
+							turnRight();
+						
 						// not at right wall
-						if (Global.currFY != 14)
+						else if (Global.currCY != 13)
 						{
 							//front is empty
 							if ((Global.robotMap[Global.currFX-1][Global.currFY+1] == 0) && (Global.robotMap[Global.currFX][Global.currFY+1] == 0) && (Global.robotMap[Global.currFX+1][Global.currFY+1] == 0))
@@ -621,15 +694,9 @@ public class Simulator extends JFrame implements ActionListener {
 								//has reached goal
 								else
 								{
-//									if (mapLeftBlocked && !anotherPath)  //dead end on left
-//									{
-//										if (leftEmpty(ori))
-//											turnLeft();
-//										else 
-//											moveForward();
-//									}
-//									
-									if (leftUnexplored(ori))
+									if (cave && leftEmpty(ori))  //cave on left
+										turnLeft();
+									else if (leftUnexplored(ori))
 				                        turnLeft();
 									else
 										moveForward();
@@ -638,20 +705,19 @@ public class Simulator extends JFrame implements ActionListener {
 							//front is blocked
 							else
 							{
-								if (Global.currFX == 1)  //at top wall
+								if ((Global.currFX == 1) || (Global.currCX == 18) || !leftEmpty(ori))  //at top wall, or bottom wall, or left n front blocked
+								{
 									turnRight();
-								
-								else if (leftUnexplored(ori))
+									mapRightBlocked = true;
+								}
+								else if (!mapRightBlocked && (leftUnexplored(ori) || leftEmpty(ori)))  //robot left unexplored
 			                        turnLeft(); 
-									
-								else if (!reachTop && leftEmpty(ori))
-									turnLeft();
 								else 
 									turnRight();
 							} 
 						}
 						//at right wall
-						else
+						else if (Global.currCY == 13)
 						{
 							if (Global.currCX == 1)  //at goal zone
 								turnRight();
@@ -674,7 +740,14 @@ public class Simulator extends JFrame implements ActionListener {
 					/*************************************************** Facing Left ********************************************/
 
 					else if (ori == 'L') 
-					{ 						
+					{ 			
+						if (reachGoal && leftEmpty(ori) && !anotherPath && !mapLeftBlocked)
+						{
+							anotherPath = true;
+							pathCX = Global.currCX;
+							pathCY = Global.currCY;
+						}
+						
 						//not at left wall
 						if (Global.currFY != 0)
 						{
@@ -700,6 +773,9 @@ public class Simulator extends JFrame implements ActionListener {
 								//reached goal
 								else
 								{
+									
+									
+									//if (cave)
 									if ((Global.currCX < 3) && leftEmpty(ori))  //at top wall
 										turnLeft();
 									
@@ -711,7 +787,7 @@ public class Simulator extends JFrame implements ActionListener {
 									else if ((Global.currCX > 3) && (Global.currCY == 5) && (Global.exploreMap[Global.currCX - 2][Global.currCY - 1] == 0)) //top right grid unexplored at turning point(y=5)
 										turnRight();
 									
-									else if ((Global.currCY < 6) && (Global.currCX != 18) && !mapLeftBlocked2 && !turnBack2) //turn back to right wall
+									else if ((Global.currCY < 6) && (Global.currCX != 18) && anotherPath) //turn back to right wall
 									{
 										turnLeft();
 										turnBack = true;
@@ -721,21 +797,22 @@ public class Simulator extends JFrame implements ActionListener {
 									else if (leftEmpty(ori) && mapLeftBlocked && (Global.currCX < minX) && !middleUnexplored) //up->left->move, just come out from left dead end, moving forward
 									{
 										mapLeftBlocked = false;
-										mapLeftBlocked2 = true;
+										anotherPath = false;
 										moveForward();
 									}
-									else if (turnBack2 && leftEmpty(ori) && !mapLeftBlocked) //come back from left, going down
-									{
-										turnLeft();
-										turnBack2 = false;
-									}
-									else if ((Global.currCY > 4) && leftEmpty(ori) && mapLeftBlocked2) //come out from left dead end, going down
+//									else if (leftEmpty(ori) && !mapLeftBlocked) //come back from left, going down
+//									{
+//										turnLeft();
+//									}
+									else if ((Global.currCY > 4) && leftEmpty(ori) && !anotherPath) //come out from left dead end, going down
 									{
 										turnLeft();	
-										mapLeftBlocked2 = false;
 									}
 									else
+									{
 										moveForward();
+										
+									}
 								}
 							}
 							//front is blocked
@@ -753,21 +830,26 @@ public class Simulator extends JFrame implements ActionListener {
 								else if ((Global.currCX > 3) && (Global.currCY > 4) && (Global.exploreMap[Global.currCX - 2][Global.currCY - 1] == 0)) //top right grid unexplored before/when reaching turning point(y=5)
 									turnRight();
 								
-								else if (reachGoal && (Global.currCY > 4) && (Global.currCX != 18) && !mapLeftBlocked2 && !turnBack2) //meet obstacle before/when reaching turning point(y=5)
+								else if (reachGoal && (Global.currCY > 4) && (Global.currCX != 18) && anotherPath) //meet obstacle before/when reaching turning point(y=5)
 								{
 									turnLeft();
 									turnBack = true;
 									if (middleUnexplored)
 										middleUnexplored = false;
 								}
-								else if (reachGoal && turnBack2 && leftEmpty(ori) && !mapLeftBlocked)//anotherPath
-								{
-									turnLeft();
-									turnBack2 = false;
-								}
+//								else if (reachGoal && turnBack2 && leftEmpty(ori) && anotherPath) //come back from right, going down
+//								{
+//									turnLeft();
+//									turnBack2 = false;
+//									anotherPath = false;
+//								}
 								else
 								{
-									if (!rightUnexplored(ori) && leftEmpty(ori))
+//									if (!rightUnexplored(ori) && leftEmpty(ori))
+//										turnLeft();
+//									
+//									else 
+									if (anotherPath)
 										turnLeft();
 									
 									else if (!leftEmpty(ori) && rightEmpty(ori))
@@ -808,8 +890,15 @@ public class Simulator extends JFrame implements ActionListener {
 					
 					else 
 					{
+						if ((Global.currCX == pathCX) && (Global.currCY == pathCY)) //after reach goal, at the entering point of 'anotherPath'
+						{
+							moveForward();
+							turnBack = false;
+							anotherPath = false;
+						}
+						
 						//not at bottom wall
-						if (Global.currFX != 19)
+						else if (Global.currFX != 19)
 						{						
 							if (upRightUnexplored)
 							{
@@ -824,7 +913,13 @@ public class Simulator extends JFrame implements ActionListener {
 								{
 									if (!reachGoal)
 									{
-										if (leftUnexplored(ori))
+										if (mapRightBlocked && leftEmpty(ori))
+										{	
+											turnLeft();
+											mapRightBlocked = false;
+										}
+											
+										else if (leftUnexplored(ori))
 											turnLeft();
 										
 										else if ((lastOri != 'L') && (leftEmpty(ori)))  //not came out from our right side
@@ -839,14 +934,6 @@ public class Simulator extends JFrame implements ActionListener {
 										{
 											turnLeft();
 											turnBack = false;
-											turnBack2 = true;
-											System.out.println("down turnBack");
-										}
-										else if (turnBack2)
-										{
-											moveForward();
-											turnBack2 = false;
-											System.out.println("down turnBack2");
 										}
 										else if (!mapLeft3RowsExplored() && rightEmpty(ori))  //got left first since will turn back later
 											turnRight();
@@ -867,8 +954,9 @@ public class Simulator extends JFrame implements ActionListener {
 									else
 									{	
 										moveForward();
-										if (turnBack2)
-											turnBack2 = false;										
+//										if (turnBack2)
+//											turnBack2 = false;
+										System.out.println("here?");
 									}
 								}
 							}
@@ -877,16 +965,21 @@ public class Simulator extends JFrame implements ActionListener {
 							{
 								if (!reachGoal)
 								{
-									if (Global.currCY == 1)
+									if (Global.currCY == 1)  //top left corner
 										turnLeft();
 									
+									else if (mapRightBlocked && leftEmpty(ori))
+									{	
+										turnLeft();
+										mapRightBlocked = false;
+									}
 									else if (leftUnexplored(ori))
 										turnLeft();
 									
-									else if (!leftEmpty(ori))
-										turnRight();
+//									else if (!leftEmpty(ori))
+//										turnRight();
 									else 
-										turnLeft();
+										turnRight();
 								}
 								else
 								{
@@ -943,9 +1036,9 @@ public class Simulator extends JFrame implements ActionListener {
 								turnRight();
 						}
 					} // end if 'D' 
-									
+							
 					//delay
-					try {sleep(200);} 
+					try {sleep(1000/steps);} 
 					catch (InterruptedException ex) {}
 					
 					if (Global.currCX == 1)
@@ -954,28 +1047,50 @@ public class Simulator extends JFrame implements ActionListener {
 					if ((Global.currCX == 1) && (Global.currCY == 13))
 						reachGoal = true;
 					
-					if ((reachGoal) && (Global.currCX == 18) && (Global.currCY == 1))
+					if (reachGoal && (Global.currCX == 18) && (Global.currCY == 1))
 					{
+						char o = robot.checkOri();
+						if (o == 'L')
+							turnRight();
+						else if (o == 'D')
+						{
+							turnRight();
+						    turnRight();
+						}
+						else if (o == 'R')
+							turnLeft();
+						
 						System.out.println("Exploration finish!");
 						break;
 					}
+					
+					long time = (System.nanoTime() - startComputeTime)/1000000000;
+//					System.out.println("time: " + time + "second");
+//					System.out.println("coverage: " + computeCoverage() + "%");
+					
+					if ((computeCoverage() >= coverageLimit) || (time >= timeLimit))
+						stop = true;
+					
 				} // end of while loop
+				
+				Descriptor.generateExploreMap();
+				Descriptor.generateObstacleMap();
 			} // end of run()
 		};  // end of thread
 		t.start();
 	} // end of explore()
 
-	public void paintRobotMap() {
+	
+	
+	public int computeCoverage(){
+		int explored = 0;
+		
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 15; j++) {
-				if (Global.exploreMap[i][j] == 1) {
-					gridExplore[i][j].setBackground(Color.WHITE);
-					
-					
-				}
-				if (Global.robotMap[i][j] == 1)
-					gridExplore[i][j].setBackground(Color.RED); 
+				if (Global.exploreMap[i][j] == 1) 
+					explored++; 
 			}
 		}
+		return (explored*100/300);
 	}
 }

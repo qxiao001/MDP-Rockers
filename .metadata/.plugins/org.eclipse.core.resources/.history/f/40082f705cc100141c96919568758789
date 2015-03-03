@@ -1,3 +1,5 @@
+package Obstacle;
+
 import Global.*;
 
 import java.lang.Math;
@@ -13,11 +15,12 @@ public class Descriptor {
 		// int sum=(int) (Math.pow(2,303)+Math.pow(2,302)+2+1);
 		String temp, hex;
 		// int count = 0;
+		System.out.println("This is the explore map: ");
 		System.out.println("11");
 		temp = "11";
 		hex = "";
 
-		for (int i = 19; i >= 0; i--) {
+		for (int i = 0; i < 20; i--) {
 			for (int j = 0; j < 15; j++) {
 				if (Global.exploreMap[i][j] == 1) {
 					System.out.print(1);
@@ -55,7 +58,7 @@ public class Descriptor {
 
 		temp = "";
 		hex = "";
-
+		System.out.println("This is the obstacle map: ");
 		for (int i = 19; i >= 0; i--) {
 			for (int j = 0; j < 15; j++) {
 				if (Global.exploreMap[i][j] == 1) {
@@ -87,14 +90,14 @@ public class Descriptor {
 
 	}
 
-	public static void main(String[] args) {
-		for (int i = 0; i < 20; i++)
-			for (int j = 0; j < 15; j++)
-				Global.exploreMap[i][j] = 1;
-		generateExploreMap();
-		generateObstacleMap();
-		// System.out.println("TRY : the Hex is : " +
-		// Long.toHexString(Long.parseLong("11111111111111", 2)));
-	}
+//	public static void main(String[] args) {
+//		for (int i = 0; i < 20; i++)
+//			for (int j = 0; j < 15; j++)
+//				Global.exploreMap[i][j] = 1;
+//		generateExploreMap();
+//		generateObstacleMap();
+//		// System.out.println("TRY : the Hex is : " +
+//		// Long.toHexString(Long.parseLong("11111111111111", 2)));
+//	}
 
 }

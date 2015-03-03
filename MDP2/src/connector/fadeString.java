@@ -5,9 +5,6 @@ public class fadeString {
 	public fadeString(){}
 	public static String getString(){
 		// 5,4,3,2,1   F1 F2 F3 L R   1,2,3 FROM LEFT TO RIGHT
-		
-		
-		
 		switch(count)
 		{
 		case  0:

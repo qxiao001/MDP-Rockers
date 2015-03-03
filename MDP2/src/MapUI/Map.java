@@ -1,9 +1,5 @@
 package MapUI;
 
-
-
-
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame; //imports JFrame library
@@ -20,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import Global.*;
+import Obstacle.obsValue;
  
 public class Map extends JFrame implements ActionListener{
 	
@@ -27,7 +24,8 @@ public class Map extends JFrame implements ActionListener{
      JPanel gridPanel = new JPanel();
      JPanel savePanel = new JPanel();
      JButton[][] grid;
-     
+     obsValue obs=new obsValue();
+     JButton btnObs1,btnObs2,btnObs3,btnObs4,btnObs5;
      
      //Map constructor
      public Map(String name){ 
@@ -58,7 +56,44 @@ public class Map extends JFrame implements ActionListener{
 		 btnSave.setBackground(Color.WHITE);
 		 btnSave.setAlignmentX(RIGHT_ALIGNMENT);
 		 btnSave.addActionListener(this);
-
+		 /***For Loading Map ***/
+		 btnObs1 = new JButton("Obs1");
+		 btnObs1.setName("Obs1");
+		 btnObs1.setBackground(Color.WHITE);
+		 btnObs1.setAlignmentX(LEFT_ALIGNMENT);
+		 btnObs1.addActionListener(this);
+		 
+		 btnObs2 = new JButton("Obs2");
+		 btnObs2.setName("Obs2");
+		 btnObs2.setBackground(Color.WHITE);
+		 btnObs2.setAlignmentX(LEFT_ALIGNMENT);
+		 btnObs2.addActionListener(this);
+		 
+		 btnObs3 = new JButton("Obs3");
+		 btnObs3.setName("Obs3");
+		 btnObs3.setBackground(Color.WHITE);
+		 btnObs3.setAlignmentX(LEFT_ALIGNMENT);
+		 btnObs3.addActionListener(this);
+		 
+		 btnObs4 = new JButton("Obs4");
+		 btnObs4.setName("Obs4");
+		 btnObs4.setBackground(Color.WHITE);
+		 btnObs4.setAlignmentX(LEFT_ALIGNMENT);
+		 btnObs4.addActionListener(this);
+		 
+		 
+		 btnObs5 = new JButton("Obs5");
+		 btnObs5.setName("Obs5");
+		 btnObs5.setBackground(Color.WHITE);
+		 btnObs5.setAlignmentX(LEFT_ALIGNMENT);
+		 btnObs5.addActionListener(this);
+		 
+		 savePanel.add(btnObs1,BorderLayout.WEST);
+		 savePanel.add(btnObs2,BorderLayout.WEST);
+		 savePanel.add(btnObs3,BorderLayout.WEST);
+		 savePanel.add(btnObs4,BorderLayout.WEST);
+		 savePanel.add(btnObs5,BorderLayout.WEST);
+		 /***For Loading Map ***/
 		 savePanel.add(btnSave,BorderLayout.WEST);
 		 savePanel.setPreferredSize(new Dimension(460,40));
 		 
@@ -80,6 +115,41 @@ public class Map extends JFrame implements ActionListener{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+        }
+        else if(e.getSource()==btnObs1)
+        {
+        	obs.initObs1();
+        	try {
+				saveMap();
+			} catch (IOException e1) {e1.printStackTrace();}
+        }
+        else if(e.getSource()==btnObs2)
+        {
+        	obs.initObs2();
+        	try {
+				saveMap();
+			} catch (IOException e1) {e1.printStackTrace();}
+        }
+        else if(e.getSource()==btnObs3)
+        {
+        	obs.initObs3();
+        	try {
+				saveMap();
+			} catch (IOException e1) {e1.printStackTrace();}
+        }
+        else if(e.getSource()==btnObs4)
+        {
+        	obs.initObs4();
+        	try {
+				saveMap();
+			} catch (IOException e1) {e1.printStackTrace();}
+        }
+        else if(e.getSource()==btnObs5)
+        {
+        	obs.initObs5();
+        	try {
+				saveMap();
+			} catch (IOException e1) {e1.printStackTrace();}
         }
         
         else{
