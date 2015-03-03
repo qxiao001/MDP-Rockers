@@ -1,6 +1,6 @@
 //package MapUI;
 // change made by caining
-// I AM HANDSOME
+
 import Global.Global;
 import MapUI.Map;
 
