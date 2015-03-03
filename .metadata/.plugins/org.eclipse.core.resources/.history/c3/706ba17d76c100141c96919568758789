@@ -1,5 +1,5 @@
 package MapUI;
-// I AM QIANRU
+
 import Global.*;
 import Obstacle.Descriptor;
 import connector.*;
