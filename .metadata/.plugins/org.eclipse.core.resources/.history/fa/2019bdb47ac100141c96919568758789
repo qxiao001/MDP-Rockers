@@ -1,9 +1,12 @@
 //package MapUI;
 // change made by caining
+<<<<<<< master
 // I AM HANDSOME
 // LET'S HAVE FUN
 // AFTER HAVE FUN
-// RESET 
+=======
+
+>>>>>>> 5fe327f - I AM HANDSOME
 import Global.Global;
 import MapUI.Map;
 
