@@ -1,3 +1,4 @@
+package MapUI;
 //package MapUI;
 
 // change made by caining
@@ -7,8 +8,6 @@
 // RESET 
 // i am zinzin
 import Global.Global;
-import MapUI.Map;
-
 import connector.*;
 
 import java.io.IOException;

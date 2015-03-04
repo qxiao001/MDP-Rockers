@@ -4,8 +4,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.PriorityQueue;
 
 import connector.Client;
+import dataStructure.Node;
 
 public class Global {
 	
@@ -26,5 +28,13 @@ public class Global {
 	public static String moveForward="F010";
 	public static String turnLeft="L000";
 	public static String turnRight="R000";
+	//new global values
+		public static int[][] heuValue=new int[20][15];
+		public static int[][] gValue=new int[20][15];
+		public static Node[][] pathNode=new Node[20][15];
+		public static int[][] obsMap;
+		public static PriorityQueue<Node> pQueue;
+		public static int startX=18,startY=1;
+		public static int[][] sempFPMap=new int[20][15];
 	
 }
