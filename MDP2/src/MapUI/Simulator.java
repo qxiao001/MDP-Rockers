@@ -1158,7 +1158,7 @@ public class Simulator extends JFrame implements ActionListener  {
 							
 					//delay
 					if(Global.realRun==true){
-						try {sleep(4000);} 
+						try {sleep(3000);} 
 						catch (InterruptedException ex) {}}
 					else
 					{

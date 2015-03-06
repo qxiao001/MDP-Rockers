@@ -38,10 +38,13 @@ public class Robot {
 				String str1 = Global.c.myReceive();
 				str=str1.trim();
 				
+				String ans = str.split(",")[0] + ","+str.split(",")[1] + "," + str.split(",")[2] + "," + str.split(",")[3] + ","+str.split(",")[4];
+				/*
 				if(str.contains("\n,")){
+				str.
 					str.lastIndexOf(",");
-				}
-				st = new StringTokenizer(str, ",\n");
+				}*/
+				st = new StringTokenizer(ans, ",\n");
 				if (st.countTokens() == 5)
 					{notOk = false;}
 				else
