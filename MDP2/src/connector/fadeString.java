@@ -9,10 +9,10 @@ public class fadeString {
 		{
 		case  0:
 			count++;
-			return "-1,-1,-1,0,-1";
+			return "-1,2,-1,0,-1";
 		case 1:
 			count++;
-			return "-1,-1,-1,6,-1";
+			return "-1,2,-1,1,-1";
 		case 2:
 			count++;
 			return "-1,-1,-1,0,-1";

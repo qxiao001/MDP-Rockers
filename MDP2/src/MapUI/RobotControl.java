@@ -25,14 +25,14 @@ public class RobotControl {
 	{
 		
 		initializeLogicalMap();
-		System.out.println("Yes it run");
+		//System.out.println("Yes it run");
 		Map map = new Map("Map");                                 //makes new ButtonGrid with 2 parameters
         map.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         map.addComponentsToMap(map.getContentPane());
         map.pack();                                               //sets appropriate size for frame
         map.setVisible(true);
 		System.out.println("here");
-        Global.c.mySend(Global.moveForward);
+        Global.c.mySend("F000");
         
 		
 	}

@@ -8,7 +8,7 @@ public class gValue {
 	{
 		whatRobotSent=theMap;
 		calculateGValue();
-		printGValue();
+		//printGValue();
 		//theMap will be calculated against
 	}
 	public void calculateGValue()
@@ -21,35 +21,36 @@ public class gValue {
 				//set all 4 walls to near wall so value =1500
 				if(i==0 || j==0 || i==19 || j==14)
 				{
-					Global.heuValue[i][j]=1500;
+					Global.heuValue[i][j]=3500;
 				}
 				else{
 						//appoint obstacle so value = 3000
-						if(whatRobotSent[i][j]==1)
+						if(whatRobotSent[i][j]>0)
 						{
-							Global.heuValue[i][j]=3000;
+							Global.heuValue[i][j]=7000;
 						}
 						//check the surrounding
-						else
+						else if(nearObs(i, j))
 						{
 							//it is near obs so set it to value =1500
-							if(nearObs(i, j))
+							
 							{
-								Global.heuValue[i][j]=1500;
+								Global.heuValue[i][j]=3500;
 							}
 						}
+						else if(j>1 && i>1)
+						{
+							Global.heuValue[i][j]=(j-1)*20+(i-1)*20;
+							
+						}
+						
+						
 				}
 			}
 		}
-		//end of calculating obstacle
-		//Now Calculate the turning point
-		for (int i=0;i<20;i++)
-		{
-			for(int j=0;j<15;j++)
-			{
-				
-			}
-		}
+		
+		Global.heuValue[Global.goalX][Global.goalY]=0;
+		
 	}
 	public void printGValue()
 	{
@@ -69,7 +70,7 @@ public class gValue {
 			for(int i=row-1;i<row+2;i++){
 				for(int j=column-1;j<column+2;j++)
 				{
-					if(whatRobotSent[i][j]==1)
+					if(whatRobotSent[i][j]>0)
 						{near=true;break;}
 				}
 				if(near){break;}

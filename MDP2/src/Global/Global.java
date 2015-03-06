@@ -4,10 +4,12 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import connector.Client;
 import dataStructure.Node;
+import dataStructure.pathCoor;
 
 public class Global {
 	
@@ -28,6 +30,7 @@ public class Global {
 	public static String moveForward="F010";
 	public static String turnLeft="L000";
 	public static String turnRight="R000";
+	
 	//new global values
 		public static int[][] heuValue=new int[20][15];
 		public static int[][] gValue=new int[20][15];
@@ -36,5 +39,15 @@ public class Global {
 		public static PriorityQueue<Node> pQueue;
 		public static int startX=18,startY=1;
 		public static int[][] sempFPMap=new int[20][15];
+		public static ArrayList<pathCoor> fsPaint=new ArrayList<pathCoor>();
+		public static ArrayList <pathCoor> realsteps=new ArrayList<pathCoor>();
+		
+		public static boolean realRun=true;
+		public static String lastSend=moveForward;
+		//public static long readTimerstart,readTimerend;
+		public static int timeLimit=999;
+		public static int steps=10;
+		public static int coverageLimit=101;
+		
 	
 }

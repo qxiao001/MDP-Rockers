@@ -40,7 +40,7 @@ public class Client {
 	    System.out.println("Iam sending you sth"+ sendString);
 	    sendData=sentence.getBytes();
 	    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, Global.ipAddress, 5143);
-	    System.out.println("It is connected");
+	    //System.out.println("It is connected");
 	    Global.client.send(sendPacket);
 	}
 	public String myReceive() throws IOException

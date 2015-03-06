@@ -62,7 +62,7 @@ public class Descriptor {
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 15; j++) {
 				if (Global.exploreMap[i][j] == 1) {
-					if (Global.robotMap[i][j] == 1) {
+					if (Global.robotMap[i][j] >= 1) {
 						System.out.print(1);
 						temp = temp + "1";
 
