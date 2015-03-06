@@ -804,3 +804,31 @@ org.eclipse.core.internal.resources.ResourceException: Resource '/MDP2/src/Robot
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1450)
 !SUBENTRY 1 org.eclipse.core.resources 4 368 2015-03-03 11:30:51.516
 !MESSAGE Resource '/MDP2/src/RobotControl.java' does not exist.
+!SESSION 2015-03-05 10:35:54.401 -----------------------------------------------
+eclipse.buildId=4.3.0.M20130911-1000
+java.version=1.8.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.standard.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.standard.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-03-05 10:36:45.594
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\samsung'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2015-03-06 11:05:28.343 -----------------------------------------------
+eclipse.buildId=4.3.0.M20130911-1000
+java.version=1.8.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.standard.product
+Command-line arguments:  -os win32 -ws win32 -arch x86 -product org.eclipse.epp.package.standard.product
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-03-06 11:06:03.104
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\samsung'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.

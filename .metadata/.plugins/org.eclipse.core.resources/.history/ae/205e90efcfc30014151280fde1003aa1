@@ -257,14 +257,13 @@ public class Simulator extends JFrame implements ActionListener  {
 		Global.currCY = Global.currCY + y;
 		Global.currFX = Global.currFX + x;
 		Global.currFY = Global.currFY + y;
-		if(!Global.fastestPath){
 		try {
-			
+			if(!Global.fastestPath)
 			robot.senseEnvironment();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}}
+		}
 		clearRobot();
 		paintRobotMap();
 		setRobot();
@@ -304,13 +303,12 @@ public class Simulator extends JFrame implements ActionListener  {
 				Global.currFY--;
 			}
 		}
-		if(!Global.fastestPath){
 		try {
 			robot.senseEnvironment();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}}
+		}
 		clearRobot();
 		paintRobotMap();
 		setRobot();
@@ -356,13 +354,12 @@ public class Simulator extends JFrame implements ActionListener  {
 				Global.currFY--;
 			}
 		}
-		if(!Global.fastestPath){
 		try {
 			robot.senseEnvironment();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}}
+		}
 		clearRobot();
 		paintRobotMap();
 		setRobot();

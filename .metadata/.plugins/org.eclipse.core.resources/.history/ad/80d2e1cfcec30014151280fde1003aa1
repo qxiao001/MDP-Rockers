@@ -156,7 +156,7 @@ public class Simulator extends JFrame implements ActionListener  {
 
 		if (btnName.equals("Fastest Path") == true) {
 			// for Fastest part
-			Global.fastestPath=true;
+			
 			FSP f=new FSP();
 			//f.printNodesCostOnly();
 			f.findPath();
@@ -212,7 +212,7 @@ public class Simulator extends JFrame implements ActionListener  {
 			}
 		}
 	}
-	public void moveForFastestPath (final String str){
+	public void moveForFastestPath(final String str){
 		Thread t = new Thread() {
 			//@Override
 			public void run() {
@@ -222,14 +222,12 @@ public class Simulator extends JFrame implements ActionListener  {
 					paintFsPath();
 					switch(part[i])
 					{
-					
-						case "F010":moveForward();break;
-						case "R000":turnRight();break;
-						case "L000":turnLeft();break;
-						
+						case "F010":Global.c.mySend(Global.moveForward);break;
+						case "R000":Global.c.mySend(Global.turnRight);break;
+						case "L000":Global.c.mySend(Global.turnRight);break;
 					}
 					//delay
-					try {sleep(1000);} 
+					try {sleep(100);} 
 					catch (InterruptedException ex) {}
 					
 				}
@@ -257,14 +255,12 @@ public class Simulator extends JFrame implements ActionListener  {
 		Global.currCY = Global.currCY + y;
 		Global.currFX = Global.currFX + x;
 		Global.currFY = Global.currFY + y;
-		if(!Global.fastestPath){
 		try {
-			
 			robot.senseEnvironment();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}}
+		}
 		clearRobot();
 		paintRobotMap();
 		setRobot();
@@ -304,13 +300,12 @@ public class Simulator extends JFrame implements ActionListener  {
 				Global.currFY--;
 			}
 		}
-		if(!Global.fastestPath){
 		try {
 			robot.senseEnvironment();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}}
+		}
 		clearRobot();
 		paintRobotMap();
 		setRobot();
@@ -356,13 +351,12 @@ public class Simulator extends JFrame implements ActionListener  {
 				Global.currFY--;
 			}
 		}
-		if(!Global.fastestPath){
 		try {
 			robot.senseEnvironment();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}}
+		}
 		clearRobot();
 		paintRobotMap();
 		setRobot();

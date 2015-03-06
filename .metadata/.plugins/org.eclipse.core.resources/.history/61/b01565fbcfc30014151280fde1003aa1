@@ -48,7 +48,6 @@ public class Global {
 		public static int timeLimit=999;
 		public static int steps=10;
 		public static int coverageLimit=101;
-		public static boolean fastestPath=false;
 		
 	
 }

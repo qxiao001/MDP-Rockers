@@ -156,7 +156,7 @@ public class Simulator extends JFrame implements ActionListener  {
 
 		if (btnName.equals("Fastest Path") == true) {
 			// for Fastest part
-			Global.fastestPath=true;
+			
 			FSP f=new FSP();
 			//f.printNodesCostOnly();
 			f.findPath();
@@ -223,9 +223,24 @@ public class Simulator extends JFrame implements ActionListener  {
 					switch(part[i])
 					{
 					
-						case "F010":moveForward();break;
-						case "R000":turnRight();break;
-						case "L000":turnLeft();break;
+						case "F010":try {
+							Global.c.mySend("F010");
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}break;
+						case "R000":try {
+							Global.c.mySend("R000");
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}break;
+						case "L000":try {
+							Global.c.mySend("L000");
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}break;
 						
 					}
 					//delay
@@ -257,14 +272,12 @@ public class Simulator extends JFrame implements ActionListener  {
 		Global.currCY = Global.currCY + y;
 		Global.currFX = Global.currFX + x;
 		Global.currFY = Global.currFY + y;
-		if(!Global.fastestPath){
 		try {
-			
 			robot.senseEnvironment();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}}
+		}
 		clearRobot();
 		paintRobotMap();
 		setRobot();
@@ -304,13 +317,12 @@ public class Simulator extends JFrame implements ActionListener  {
 				Global.currFY--;
 			}
 		}
-		if(!Global.fastestPath){
 		try {
 			robot.senseEnvironment();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}}
+		}
 		clearRobot();
 		paintRobotMap();
 		setRobot();
@@ -356,13 +368,12 @@ public class Simulator extends JFrame implements ActionListener  {
 				Global.currFY--;
 			}
 		}
-		if(!Global.fastestPath){
 		try {
 			robot.senseEnvironment();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}}
+		}
 		clearRobot();
 		paintRobotMap();
 		setRobot();
