@@ -37,6 +37,10 @@ public class Robot {
 			//	t.start();
 				String str1 = Global.c.myReceive();
 				str=str1.trim();
+				
+				if(str.contains("\n,")){
+					str.lastIndexOf(",");
+				}
 				st = new StringTokenizer(str, ",\n");
 				if (st.countTokens() == 5)
 					{notOk = false;}
@@ -64,6 +68,7 @@ public class Robot {
 		System.out.print("FrontRight =  " + FR + ", ");
 		System.out.print("Left =  " + L + ", ");
 		System.out.println("Right = " + R);
+		str=null;
 		sendalready=0;
 	//	t.reset();
 	}
