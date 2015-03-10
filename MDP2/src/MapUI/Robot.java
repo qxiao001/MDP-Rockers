@@ -18,8 +18,8 @@ public class Robot {
 	private SensorReading sensorReading;
 	int count = 0;
 	private boolean noError = true;
-	private Timer t=new Timer(5000);
-
+	//private Timer t=new Timer(5000);
+	private boolean readyToRead=false; 
 	// privat int loop=3;
 	// for whether to set obs in the robot map
 
@@ -28,22 +28,76 @@ public class Robot {
 		sensorReading = new SensorReading();
 	}
 
+	public void readWithoutComma() { //in this read the string send got no ,
+		String str = "";
+		boolean notOk = true;//int sendalready=0;
+		StringTokenizer st = null;
+		String checkString="";
+		
+			while(!readyToRead){
+				try {
+					checkString = Global.c.myReceive();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if(checkString.charAt(0)=='O' && checkString.charAt(1)=='K') readyToRead=true;
+				
+			}
+		
+			while (notOk ) {
+				try {
+				
+					String str1 = Global.c.myReceive();
+					str=str1.trim();
+					FL = (int)(str.charAt(0));
+					FM = (int)(str.charAt(1));
+					FR = (int)(str.charAt(2));
+					L = (int)(str.charAt(3));
+					R = (int)(str.charAt(4));
+					notOk=false;
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					notOk=true;
+					e.printStackTrace();
+				}
+			}
+			System.out.println("Recevied from rpi(we process this):" + str);
+			
+			System.out.print("FrontLeft = " + FL + ", ");
+			System.out.print("FrontMiddle = " + FM + ", ");
+			System.out.print("FrontRight =  " + FR + ", ");
+			System.out.print("Left =  " + L + ", ");
+			System.out.println("Right = " + R);
+			str=null;
+			
+			readyToRead=false;
+	//	t.reset();
+}
+
 	public void read() {
 		String str = "";
 		boolean notOk = true;int sendalready=0;
 		StringTokenizer st = null;
+		String checkString="";
+		while(!readyToRead){
+			try {
+				checkString = Global.c.myReceive();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if(checkString.charAt(0)=='O' && checkString.charAt(1)=='K') readyToRead=true;
+
+		}
 		while (notOk ) {
 			try {
-			//	t.start();
+			
 				String str1 = Global.c.myReceive();
 				str=str1.trim();
 				
 				String ans = str.split(",")[0] + ","+str.split(",")[1] + "," + str.split(",")[2] + "," + str.split(",")[3] + ","+str.split(",")[4];
-				/*
-				if(str.contains("\n,")){
-				str.
-					str.lastIndexOf(",");
-				}*/
 				st = new StringTokenizer(ans, ",\n");
 				if (st.countTokens() == 5)
 					{notOk = false;}
@@ -72,7 +126,9 @@ public class Robot {
 		System.out.print("Left =  " + L + ", ");
 		System.out.println("Right = " + R);
 		str=null;
-		sendalready=0;
+		//sendalready=0;
+		
+		readyToRead=false;
 	//	t.reset();
 	}
 
@@ -82,6 +138,7 @@ public class Robot {
 		checkOri();
 		if (Global.realRun == true) {
 			read();
+			//readWithoutComma();
 		} else {
 			String str1 = sensorReading.senseEnvironment();
 			//String str1 = fadeString.getString();
@@ -1050,3 +1107,4 @@ public class Robot {
 
 		
 	}
+

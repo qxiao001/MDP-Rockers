@@ -549,81 +549,217 @@ public class Simulator extends JFrame implements ActionListener  {
 	      return rightIsEmpty;
 	   }
  
- public boolean mapLeftRow1Explored(){
-		  boolean row1Explored = true;
-		  if (Global.currCY > 5){
-			  for (int i = Global.currCY - 2; i > 3; i--){  
-				  if (Global.robotMap[Global.currCX - 1][i] == 1)
-					  break;
-				  else if (Global.exploreMap[Global.currCX - 1][i] == 0) //grid unexplored
-	       	 	  {
-					  row1Explored = false;
-	   				  break;
-	       	 	  }
-	   		  }
-	  	  }
-		  return row1Explored;
-	   }
-	   
- public boolean mapRightRow1Explored(){
-		  boolean row1Explored = true;
-		  if (Global.currCY < 13){
-			  for (int i = Global.currCY + 2; i < 15; i++){   			
-				  if (Global.robotMap[Global.currCX - 1][i] == 1)
-					  break;
-				  else if (Global.exploreMap[Global.currCX - 1][i] == 0) //grid unexplored
-	       	 	  {
-					  row1Explored = false;
-	   				  break;
-	       	 	  }
-	   		  }
-	  	  }
-		  return row1Explored;
-	   }
-	   
- //while reach goal = true
- public boolean mapRight3RowsExplored(){
-	      boolean rightIsExplored = true;
-	      if (Global.currCY < 13)
-   	  {
-	    	    for (int j = -1; j < 2; j++)
-	        	{
-	    	    	for (int i = Global.currCY + 2; i < 15; i++)
-	        		{
-	        			if ((Global.exploreMap[Global.currCX + j][i] == 1) && (Global.robotMap[Global.currCX + j][i] == 1)) //obstacle found
-		        	 		break;
-	        			
-	        			else if (Global.exploreMap[Global.currCX + j][i] == 0) //grid unexplored
-		        	 	{
-		        	 		rightIsExplored = false;
-		        	 		break;
-		        	 	}
-	        		}
-	        	}
-   	 }
-	      return rightIsExplored;
-	   }
+ public int max(int num1, int num2){
+	 if (num1 > num2)
+		 return num1;
+	 else
+		 return num2;
+ }
+ 
+ public int min(int num1, int num2){
+	 if (num1 < num2)
+		 return num1;
+	 else
+		 return num2;
+ }
  
  public boolean mapLeft3RowsExplored(){
-	      boolean leftIsExplored = true;
-	      if (Global.currCY > 5)
-	      {
-	    	  for (int j = -1; j < 2; j++)
-	    	  {
-	    		  for (int i = Global.currCY - 2; i > 3; i--)
-	        	  {
-		        	 	if ((Global.exploreMap[Global.currCX + j][i] == 1) && (Global.robotMap[Global.currCX + j][i] == 1)) //obstacle found
-		        	 	    break;
-		        	 	else if (Global.exploreMap[Global.currCX + j][i] == 0) //grid unexplored
-		        	 	{
-		        	 		leftIsExplored = false;
-		        	 		break;
-		        	 	}	
-	        	 }
-	         }
-	      }
-	      return leftIsExplored;
- }
+	 int maxObsY = -1, maxExpY = -1;
+	 boolean noObstacle = false, noUnexploredGrid = false;;
+     int obstacleY1 = -1, obstacleY2 = -1, obstacleY3 = -1; //store value of Y for row1, 2, 3 where obstacle is found
+     int unexploredY1 = -1, unexploredY2 = -1, unexploredY3 = -1; //store value of Y for row1, 2, 3 where unexplored grid is found
+     
+		if (Global.currCY > 5) {
+			for (int j = -1; j < 2; j++) {
+				for (int i = Global.currCY - 2; i > 3; i--) {
+					if ((Global.exploreMap[Global.currCX + j][i] == 1) && (Global.robotMap[Global.currCX + j][i] >= 1)) // obstacle found
+					{
+						if (j == -1)
+							obstacleY1 = i;
+						else if (j == 0)
+							obstacleY2 = i;
+						else
+							obstacleY3 = i;
+						break;
+					} 
+					else if (Global.exploreMap[Global.currCX + j][i] == 0) // grid unexplored
+					{
+						if (j == -1)
+							unexploredY1 = i;
+						else if (j == 0)
+							unexploredY2 = i;
+						else
+							unexploredY3 = i;
+						break;
+					}
+				}
+			}
+			
+			maxObsY = max(obstacleY1, obstacleY2);
+			maxObsY = max(maxObsY, obstacleY3);
+			if (maxObsY == -1)
+				noObstacle = true;
+			System.out.println("maxObsY: " + maxObsY);
+			maxExpY = max(unexploredY1, unexploredY2);
+			maxExpY = max(maxExpY, unexploredY3);
+			if (maxExpY == -1)
+				noUnexploredGrid = true;
+			System.out.println("maxExpY: " + maxExpY);
+			
+			if (noUnexploredGrid || (!noObstacle && !noUnexploredGrid && ((maxObsY - maxExpY) > 2)))
+				return true;
+			else
+				return false;
+		}
+		else 
+			return true;
+		
+}
+	 
+ public boolean mapRight3RowsExplored(){
+	 int minObsY = 15, minExpY = 15;
+	 boolean noObstacle = false, noUnexploredGrid = false;;
+     int obstacleY1 = 15, obstacleY2 = 15, obstacleY3 = 15; //store value of Y for row1, 2, 3 where obstacle is found
+     int unexploredY1 = 15, unexploredY2 = 15, unexploredY3 = 15; //store value of Y for row1, 2, 3 where unexplored grid is found
+     
+		if (Global.currCY < 13) {
+			for (int j = -1; j < 2; j++) {
+				for (int i = Global.currCY + 2; i < 15; i++) {
+					if ((Global.exploreMap[Global.currCX + j][i] == 1) && (Global.robotMap[Global.currCX + j][i] >= 1)) // obstacle found
+					{
+						if (j == -1)
+							obstacleY1 = i;
+						else if (j == 0)
+							obstacleY2 = i;
+						else
+							obstacleY3 = i;
+						break;
+					}
+
+					else if (Global.exploreMap[Global.currCX + j][i] == 0) // grid unexplored
+					{
+						if (j == -1)
+							unexploredY1 = i;
+						else if (j == 0)
+							unexploredY2 = i;
+						else
+							unexploredY3 = i;
+						break;
+					}
+				}
+			}
+			minObsY = min(obstacleY1, obstacleY2);
+			minObsY = min(minObsY, obstacleY3);
+			if (minObsY == 15)
+				noObstacle = true;
+			
+			minExpY = min(unexploredY1, unexploredY2);
+			minExpY = min(minExpY, unexploredY3);
+			if (minExpY == 15)
+				noUnexploredGrid = true;
+			
+			if ((noUnexploredGrid) || (!noObstacle && !noUnexploredGrid && ((minObsY - minExpY) > -2)))
+				return true;
+			else
+				return false;
+		}
+		else 
+			return true;
+	}
+	 
+ public boolean mapLeftRow1Explored(){
+	  boolean row1Explored = true;
+	  if (Global.currCY > 5){
+		  for (int i = Global.currCY - 2; i > 3; i--){  
+			  if ((Global.exploreMap[Global.currCX - 1][i] == 1) && (Global.robotMap[Global.currCX - 1][i] >= 1))
+				  break;
+			  else if (Global.exploreMap[Global.currCX - 1][i] == 0) //grid unexplored
+      	 	  {
+				  row1Explored = false;
+  				  break;
+      	 	  }
+  		  }
+ 	  }
+	  return row1Explored;
+  }
+
+public boolean mapLeftRow2Explored(){
+  boolean row2Explored = true;
+ if (Global.currCY > 5){
+	  for (int i = Global.currCY - 2; i > 3; i--){   			
+		  if (Global.robotMap[Global.currCX][i] >= 1)
+			  break;
+		  else if (Global.exploreMap[Global.currCX][i] == 0) //grid unexplored
+  	 	  {
+			  row2Explored = false;
+				  break;
+  	 	  }
+		  }
+	  }
+ return row2Explored;
+}
+
+public boolean mapLeftRow3Explored(){
+ boolean row3Explored = true;
+ if (Global.currCY > 5){
+	  for (int i = Global.currCY - 2; i > 3; i--){   			
+		  if (Global.robotMap[Global.currCX + 1][i] == 1)
+			  break;
+		  else if (Global.exploreMap[Global.currCX + 1][i] == 0) //grid unexplored
+  	 	  {
+			  row3Explored = false;
+				  break;
+  	 	  }
+		  }
+	  }
+ return row3Explored;
+}
+  
+public boolean mapRightRow1Explored(){
+	  boolean row1Explored = true;
+	  if (Global.currCY < 13){
+		  for (int i = Global.currCY + 2; i < 15; i++){   			
+			  if (Global.robotMap[Global.currCX - 1][i] == 1)
+				  break;
+			  else if (Global.exploreMap[Global.currCX - 1][i] == 0) //grid unexplored
+      	 	  {
+				  row1Explored = false;
+  				  break;
+      	 	  }
+  		  }
+ 	  }
+	  return row1Explored;
+  }
+
+public boolean mapRightRow2Explored(){
+  boolean row2Explored = true;
+ if (Global.currCY < 13){
+	  for (int i = Global.currCY + 2; i < 15; i++){   			
+		  if (Global.robotMap[Global.currCX][i] == 1)
+			  break;
+		  else if (Global.exploreMap[Global.currCX][i] == 0) //grid unexplored
+  	 	  {
+			  row2Explored = false;
+				  break;
+  	 	  }
+		  }
+	  }
+ return row2Explored;
+}
+
+public boolean mapRightRow3Explored(){
+ boolean row3Explored = true;
+ if (Global.currCY < 13){
+	  for (int i = Global.currCY + 2; i < 15; i++){   			
+		  if (Global.exploreMap[Global.currCX + 1][i] == 0) //grid unexplored
+  	 	  {
+			  row3Explored = false;
+				  break;
+  	 	  }
+		  }
+	  }
+ return row3Explored;
+}
  
  public boolean mapFront3ColumnsExplored(){
 	      boolean frontIsExplored = true;
@@ -646,20 +782,24 @@ public class Simulator extends JFrame implements ActionListener  {
 	      return frontIsExplored;
 }
  
-	public void explore() {
+ public void explore() {
 		Thread t = new Thread() {
 			//@Override
 			public void run() {
 				char ori = ' ';
 				char lastOri = ' ';
-				int minX = 0;
+				int minX = 0, rightMinX = 0;
 				int count=1;
 				int pathCX = -1, pathCY = -1;     //turning point to go down
 				boolean downRightIsUnexplored = false, upRightUnexplored = false, rightRightUnexplored = false, middleUnexplored = false;
 				boolean reachTop = false, reachGoal = false, stop = false;
 				boolean anotherPath = false;
 				boolean mapLeftBlocked = false;   //after reaching goal, dead end found when facing left
+				boolean leftFrontBlocked = false;
 				boolean cave = false;             //before reaching goal, cave found
+				boolean caveOnBottomLeft = false;
+				boolean caveOnLeftWallRight = false;
+				int caveOnBottomLeftX = 0;
 				//mapLeftBlocked2 = false
 				boolean turnBack = false, turnBack2 = false;
 				boolean mapRightBlocked = false;  //before reaching goal, dead end found when facing right
@@ -673,6 +813,8 @@ public class Simulator extends JFrame implements ActionListener  {
 				System.out.println("coverage limit: " + Global.coverageLimit);
 				System.out.println("steps/s: " + Global.steps);
 				long startComputeTime = System.nanoTime();
+				
+				setRobot();
 				
 				try {
 					robot.senseEnvironment();
@@ -711,27 +853,28 @@ public class Simulator extends JFrame implements ActionListener  {
 								//reached goal
 								else
 								{
-									if (cave)
-										moveForward();
-									
-									else if (cave && leftEmpty(ori))
-									{
+									if (caveOnBottomLeft && leftEmpty(ori) && (Global.currCX < caveOnBottomLeftX))
 										turnLeft();
+										
+									else if (caveOnBottomLeft)
+									{
+										moveForward();
 									}
 									
 									else if (!mapFront3ColumnsExplored())  //robot does not explore middle area of arena
 									{
 										moveForward();
 										middleUnexplored = true;
+										mapLeftBlocked = false;
 									}
 										
 									else if (leftUnexplored(ori))
 										turnLeft();
-																								                                    
+													
 									else if (mapLeftBlocked && leftEmpty(ori) && !middleUnexplored && (Global.currCX < minX)) //up->left, just came out from a dead end on left, going left
 										turnLeft();
 									
-									else if (middleUnexplored && mapLeft3RowsExplored() && mapRight3RowsExplored())  //both sides are explored when moving up into to middle area of arena 
+									else if (middleUnexplored && mapLeftRow1Explored() && mapLeftRow2Explored() && mapLeftRow3Explored() && mapRightRow1Explored() && mapRightRow2Explored() && mapRightRow3Explored())  //both sides are explored when moving up into to middle area of arena 
 										turnLeft();
 									else
 										moveForward();
@@ -741,7 +884,13 @@ public class Simulator extends JFrame implements ActionListener  {
 							//front is blocked
 							else
 							{
-								if (cave && leftEmpty(ori))
+								if (!reachGoal && !leftEmpty(ori))
+								{
+									leftFrontBlocked = true;
+									turnRight();
+								}
+								
+								else if (caveOnBottomLeft && leftEmpty(ori) && (Global.currCX < caveOnBottomLeftX))
 								{
 									turnLeft();
 								}
@@ -754,13 +903,14 @@ public class Simulator extends JFrame implements ActionListener  {
 								
 								else if (mapLeftBlocked && !leftEmpty(ori))
 								{
-									cave = true;
+									caveOnBottomLeft = true;
+									caveOnBottomLeftX = Global.currCX;
 									turnRight();
 								}
 								else if (mapLeftBlocked && (Global.currCX < minX) && !middleUnexplored && leftEmpty(ori)) //came out from a dead end on left, going left
 									turnLeft();
 								
-								else if (middleUnexplored && mapLeft3RowsExplored() && mapRight3RowsExplored())  //both sides are explored when moving up into to middle area of arena 
+								else if (middleUnexplored && mapLeftRow1Explored() && mapLeftRow2Explored() && mapLeftRow3Explored() && mapRightRow1Explored() && mapRightRow2Explored() &&mapRightRow3Explored())  //both sides are explored when moving up into to middle area of arena 
 									turnLeft();
 									
 								else if (leftUnexplored(ori)) //before reaching goal
@@ -797,7 +947,7 @@ public class Simulator extends JFrame implements ActionListener  {
 					/*************************************************** Facing Right ********************************************/
 					else if (ori == 'R') 
 					{
-						if ((Global.currCX == pathCX) && (Global.currCY == pathCY))  //come back from right, going down from the first 3 empty grids counted from left
+						if ((Global.currCX == pathCX) && (Global.currCY == pathCY) && !caveOnBottomLeft)  //come back from right, going down from the first 3 empty grids counted from left
 							turnRight();
 						
 						// not at right wall
@@ -819,22 +969,41 @@ public class Simulator extends JFrame implements ActionListener  {
 								//has reached goal
 								else
 								{
-									if (cave && leftEmpty(ori))  //cave on left
-										turnLeft();
+									if (caveOnBottomLeft){
+										if (leftEmpty(ori))  //cave on left
+											turnLeft();
+										else
+											moveForward();
+									}
 									else if (leftUnexplored(ori))
 				                        turnLeft();
+									else if ((Global.currCX == 18) && mapRight3RowsExplored())
+										turnRight();
+//									else if (turnBack)
+//										moveForward(pathCY - Global.currCY);
 									else
 										moveForward();
+										
 								}
 							}
 							//front is blocked
 							else
 							{
-								if ((Global.currFX == 1) || (Global.currCX == 18) || !leftEmpty(ori))  //at top wall, or bottom wall, or left n front blocked
+//								if (leftFrontBlocked) //before reaching goal (at left wall)
+//								{
+//									caveOnLeftWallRight = true;
+//									turnRight();
+//								}
+								if (caveOnBottomLeft && leftEmpty(ori))
+									turnLeft();
+								
+								else if ((Global.currCX == 1) || (Global.currCX == 18) || !leftEmpty(ori))  //at top wall, or bottom wall, or left n front blocked
 								{
 									turnRight();
 									mapRightBlocked = true;
+									rightMinX = Global.currCX;
 								}
+								
 								else if (!mapRightBlocked && (leftUnexplored(ori) || leftEmpty(ori)))  //robot left unexplored
 			                        turnLeft(); 
 								else 
@@ -847,7 +1016,10 @@ public class Simulator extends JFrame implements ActionListener  {
 							if (Global.currCX == 1)  //at goal zone
 								turnRight();
 								
-							else if (mapLeftBlocked && (leftEmpty(ori))) //dead end on left
+							else if (caveOnBottomLeft && leftEmpty(ori))
+								turnLeft();
+							
+							else if (mapLeftBlocked && leftEmpty(ori)) //dead end on left
 								turnLeft();
 										
 							else if ((Global.currCX != 18) && (Global.exploreMap[Global.currCX - 2][Global.currCY + 1] == 0) && (Global.exploreMap[Global.currCX + 2][Global.currCY + 1] == 0))
@@ -857,7 +1029,7 @@ public class Simulator extends JFrame implements ActionListener  {
 							}
 							else if (Global.exploreMap[Global.currCX - 2][Global.currCY + 1] == 0)
 								turnLeft();
-							else 
+							else
 								turnRight();
 						}
 					} // end of 'R'
@@ -887,10 +1059,22 @@ public class Simulator extends JFrame implements ActionListener  {
 									else if ((Global.currCY == 1) && (Global.exploreMap[Global.currCX + 2][Global.currCY - 1] == 0))
 										turnLeft();
 									
+									else if (mapRightBlocked && !leftEmpty(ori))  //come out from dead end on right
+										moveForward();
+									
+									else if (mapRightBlocked && leftEmpty(ori))   //come out from dead end on right, going down to next X
+									{
+										turnLeft();
+									}
+									
 									else if ((reachTop) && (lastOri == 'U'))  //not came from down
 										moveForward();
 									
 									else if ((reachTop) && (lastOri != 'D') && (Global.robotMap[Global.currCX + 2][Global.currCY + 1] == 0) && (Global.robotMap[Global.currCX + 2][Global.currCY] == 0) && (Global.robotMap[Global.currCX + 2][Global.currCY - 1] == 0))
+										turnLeft();
+
+									else if ((Global.currCX == 1) && mapLeft3RowsExplored())
+										
 										turnLeft();
 									else
 										moveForward();
@@ -898,10 +1082,14 @@ public class Simulator extends JFrame implements ActionListener  {
 								//reached goal
 								else
 								{
+									if (caveOnBottomLeft && (Global.currCX < caveOnBottomLeftX))
+									{
+										moveForward();
+										caveOnBottomLeft = false;
+										mapLeftBlocked = false;
+									}
 									
-									
-									//if (cave)
-									if ((Global.currCX < 3) && leftEmpty(ori))  //at top wall
+									else if ((Global.currCX < 3) && leftEmpty(ori))  //at top wall
 										turnLeft();
 									
 									else if ((Global.currCY == 13) && rightRightUnexplored)  //at right wall
@@ -916,6 +1104,7 @@ public class Simulator extends JFrame implements ActionListener  {
 									{
 										turnLeft();
 										turnBack = true;
+										//
 										if (middleUnexplored)
 											middleUnexplored = false;
 									}
@@ -929,14 +1118,14 @@ public class Simulator extends JFrame implements ActionListener  {
 //									{
 //										turnLeft();
 //									}
-									else if ((Global.currCY > 4) && leftEmpty(ori) && !anotherPath) //come out from left dead end, going down
+									else if ((Global.currCY > 4) && leftEmpty(ori) && !anotherPath && !middleUnexplored) //come out from left dead end, going down
 									{
 										turnLeft();	
 									}
+									
 									else
 									{
 										moveForward();
-										
 									}
 								}
 							}
@@ -962,12 +1151,19 @@ public class Simulator extends JFrame implements ActionListener  {
 									if (middleUnexplored)
 										middleUnexplored = false;
 								}
-//								else if (reachGoal && turnBack2 && leftEmpty(ori) && anotherPath) //come back from right, going down
-//								{
-//									turnLeft();
-//									turnBack2 = false;
-//									anotherPath = false;
-//								}
+								
+								else if (reachGoal && (Global.currCY > 4) && (Global.currCX != 18) && middleUnexplored) //meet obstacle before/when reaching turning point(y=5)
+								{
+									turnLeft();
+									turnBack = true;
+									if (middleUnexplored)
+										middleUnexplored = false;
+								}
+								else if (reachGoal && turnBack2 && leftEmpty(ori)) //come back from right, going down
+								{
+									turnLeft();
+									turnBack2 = false;
+								}
 								else
 								{
 //									if (!rightUnexplored(ori) && leftEmpty(ori))
@@ -1038,16 +1234,21 @@ public class Simulator extends JFrame implements ActionListener  {
 								{
 									if (!reachGoal)
 									{
-										if (mapRightBlocked && leftEmpty(ori))
+										//if (caveOnLeftWallRight)
+										if (mapRightBlocked && leftEmpty(ori) && (Global.currCX > rightMinX))
 										{	
 											turnLeft();
 											mapRightBlocked = false;
 										}
 											
+										
+//										else if (mapRightBlocked)
+//											moveForward();
+//										
 										else if (leftUnexplored(ori))
 											turnLeft();
 										
-										else if ((lastOri != 'L') && (leftEmpty(ori)))  //not came out from our right side
+										else if ((lastOri != 'L') && (leftEmpty(ori)) && !mapRightBlocked)  //not came out from our right side
 											turnLeft();
 										else 
 											moveForward();	
@@ -1060,11 +1261,11 @@ public class Simulator extends JFrame implements ActionListener  {
 											turnLeft();
 											turnBack = false;
 										}
-										else if (!mapLeftRow1Explored() && rightEmpty(ori))  //got left first since will turn back later
-											turnRight();
-										
-										else if (!mapRightRow1Explored() && leftEmpty(ori))
+										else if (!mapRightRow1Explored())  //got left first since will turn back later
 											turnLeft();
+										
+										else if (!mapLeftRow1Explored())
+											turnRight();
 										
 										else  //both sides explored
 											moveForward();
@@ -1073,15 +1274,15 @@ public class Simulator extends JFrame implements ActionListener  {
 								//at right wall
 								else if (Global.currCY == 13)
 								{
-									//haven't considered unreachable area
-									if (!mapLeftRow1Explored() && rightEmpty(ori))  //map left unexplored
+									if (!mapLeftRow1Explored())  //map left row 1 unexplored
+									{
 										turnRight();
+									}
 									else
 									{	
 										moveForward();
 //										if (turnBack2)
 //											turnBack2 = false;
-										System.out.println("here?");
 									}
 								}
 							}
@@ -1117,11 +1318,11 @@ public class Simulator extends JFrame implements ActionListener  {
 									else if (Global.currCY == 13) //at right wall
 										turnRight();
 									
-									else if (leftUnexplored(ori))
+									else if (!mapRight3RowsExplored())
 										turnLeft();
 									
-									else if (!rightUnexplored(ori) && leftEmpty(ori))
-										turnLeft();
+									else if (!mapLeft3RowsExplored())
+										turnRight();
 									
 									else if (!rightEmpty(ori))
 										turnLeft();
@@ -1163,14 +1364,8 @@ public class Simulator extends JFrame implements ActionListener  {
 					} // end if 'D' 
 							
 					//delay
-					if(Global.realRun==true){
-						try {sleep(3000);} 
-						catch (InterruptedException ex) {}}
-					else
-					{
-						try {sleep(1000/Global.steps);} 
-						catch (InterruptedException ex) {}
-					}
+					try {sleep(1000/Global.steps);} 
+					catch (InterruptedException ex) {}
 					
 					if (Global.currCX == 1)
 						reachTop = true;
@@ -1178,19 +1373,24 @@ public class Simulator extends JFrame implements ActionListener  {
 					if ((Global.currCX == 1) && (Global.currCY == 13))
 						reachGoal = true;
 					
-					if (reachGoal && (Global.currCX == 18) && (Global.currCY == 1))
+					if (reachGoal && (Global.currCX == 18) && (Global.currCY == 1) && (robot.checkOri() != 'U'))
 					{
 						char o = robot.checkOri();
 						if (o == 'L')
 							turnRight();
 						else if (o == 'D')
 						{
-							turnRight();
-						    turnRight();
+							turnLeft();
 						}
 						else if (o == 'R')
 							turnLeft();
 						
+						try {sleep(1000/Global.steps);} 
+						catch (InterruptedException ex) {}
+					}
+					
+					if (reachGoal && (Global.currCX == 18) && (Global.currCY == 1) && (robot.checkOri() == 'U'))
+					{
 						System.out.println("Exploration finish!");
 						break;
 					}
@@ -1216,8 +1416,6 @@ public class Simulator extends JFrame implements ActionListener  {
 		};  // end of thread
 		t.start();
 	} // end of explore()
-
-	
 	
 
 	

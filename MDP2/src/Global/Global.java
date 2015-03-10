@@ -42,7 +42,7 @@ public class Global {
 		public static ArrayList<pathCoor> fsPaint=new ArrayList<pathCoor>();
 		public static ArrayList <pathCoor> realsteps=new ArrayList<pathCoor>();
 		
-		public static boolean realRun=true;
+		public static boolean realRun=false;
 		public static String lastSend=moveForward;
 		//public static long readTimerstart,readTimerend;
 		public static int timeLimit=999;
