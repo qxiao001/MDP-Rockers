@@ -1,6 +1,7 @@
 package MapUI;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.PriorityQueue;
@@ -24,12 +25,12 @@ public class FSP {
 	public FSP(){
 		initalizesemSPMap();
 		heurValue.initialize();
-		gValue astar=new gValue(Global.realMap);
+		gValue astar=new gValue(Global.robotMap);
 		initalizeNodes();
 	}
 	public void findPath()
 	{
-		findShortPath2();
+		findShortPath();
 		printPath();
 		makeFPMap();
 	}
@@ -67,10 +68,6 @@ public class FSP {
 			
 			cNode=q.poll();
 			ccX=cNode.getPosition()[0];ccY=cNode.getPosition()[1];
-			if (count<10)
-				System.out.println("Current processing("+ccX+","+ccY+")");
-			
-			count++;
 			
 			
 			if( withinBoundary(ccX,ccY) || (ccX!=1 && ccY!=13))
@@ -367,7 +364,7 @@ public class FSP {
 			int moveY=Global.realsteps.get(count).getY();
 			if(ori=='U')
 			{
-				System.out.println("The step: "+count);
+				//System.out.println("The step: "+count);
 				if(findDifference(nowX,nowY,moveX,moveY)==1)
 				{
 					sB.append("F010,");
@@ -398,7 +395,46 @@ public class FSP {
 		//return finalString;
 		return finalString;
 	}
+	public String oneString(String str)
+	{		
+		System.out.println("The fastest path(before modification): "+ str);
+		StringBuilder sB1 = new StringBuilder();
+		String returnString="";
+		int count=0;
+		String[] part=str.split(",");
+		for(int i=0;i<part.length;i++)
+		{			
+			//loop till the last F010
+			if(part[i].equals("F010"))
+			{
+				count++;
+			}
+			else
+			{
+				
+					if(count>0 && count<9) 
+					{
+						{sB1.append("F0"+count+"1/");count=0;}
+					}
+					else if(count>9)
+					{
+						
+						sB1.append("F"+count+"1/");count=0;
+					}
+				
+					//if(part[i]!="F010")
+					if(part[i].equals("R000"))
+						sB1.append("R001/");
+					else
+						sB1.append("L001/");
+				
+			}
+			
+		}
+		returnString=sB1.toString();		
+		return returnString;
 		
+	}
 	
 	public static int findDifference(int nowX,int nowY,int moveX,int moveY)
 	{
@@ -425,5 +461,53 @@ public class FSP {
 		}
 	}
 	
+	public void sendMoveByMove(String str)
+	{
+		int stringLength=str.length();
+		double z= (double) stringLength/60;
+		int loopCount=(int)Math.ceil(z);boolean waitingToSend=true;
+		String checkString="";
+		int count=0;
+		String currString="";
+		while(count<loopCount)
+		{
+			if(count+1<loopCount)
+				currString=str.substring(count*60,(((count+1)*60)-1));
+			else
+				currString=str.substring(count*60,stringLength-1);
+			System.out.println("The seperated string: "+currString);
+			count++;
+			if(Global.realRun==true){
+				while(waitingToSend)
+				{
+					try {
+						checkString = Global.c.myReceive();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					if(checkString.charAt(0)=='O' && checkString.charAt(1)=='K') waitingToSend=false;
+				}
+				try {
+					
+					Global.c.mySend(currString);
+					System.out.println("I have sent the separted string:"+currString);
+					waitingToSend=true;
+					
+					//Global.lastSend=currString;
+					//System.out.println("I have sent robot to move forward.");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} 
+				}
+			
+			
+			
+				
+		}
+		
+		
+	}
 	
 }

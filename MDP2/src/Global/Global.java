@@ -30,6 +30,7 @@ public class Global {
 	public static String moveForward="F010";
 	public static String turnLeft="L000";
 	public static String turnRight="R000";
+	public static String adjust="A";
 	
 	//new global values
 		public static int[][] heuValue=new int[20][15];
@@ -49,6 +50,7 @@ public class Global {
 		public static int steps=10;
 		public static int coverageLimit=101;
 		public static boolean fastestPath=false;
+		public static boolean meetCorner=false;
 		
 	
 }

@@ -37,6 +37,7 @@ public class Robot {
 			while(!readyToRead){
 				try {
 					checkString = Global.c.myReceive();
+					System.out.println("check String: " + checkString);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -84,6 +85,7 @@ public class Robot {
 		while(!readyToRead){
 			try {
 				checkString = Global.c.myReceive();
+				System.out.println("check String: " + checkString);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
