@@ -2,12 +2,13 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="" key="selection"/>
+		<item value="front3GridsBlocked" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="front3GridsBlocked"/>
 			<item value="F000"/>
 			<item value="inside left orientation"/>
 			<item value="System.out.println"/>
@@ -15,7 +16,6 @@
 			<item value="System.out.print"/>
 			<item value="ack_timer"/>
 			<item value="seqnr"/>
-			<item value="out_buf"/>
 		</list>
 		<list key="replacehistory">
 			<item value="//System.out.print"/>

@@ -1,0 +1,58 @@
+package Global;
+
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+
+import connector.Client;
+import dataStructure.Node;
+import dataStructure.pathCoor;
+
+public class Global {
+	
+	public static int[][] robotMap = new int[20][15];
+	public static int[][] realMap= new int[20][15];
+	public static int[][] exploreMap= new int[20][15];
+	public static int  currCX = 18, currCY = 1, currFX = 17, currFY = 1;
+	//we need to declare the start point also :)
+	public static int senseRange = 3;
+	public static int goalX = 1, goalY = 13;
+	public static int port=7777;
+	public static int backlock=40;
+	public static InetAddress ipAddress;
+	public static InetAddress addr ;//InetAddress.getByName("64.69.35.190");
+	public static ServerSocket sc;
+	public static DatagramSocket client;
+	public static Client c= new Client();
+	public static String moveForward="F010";
+	public static String turnLeft="L000";
+	public static String turnRight="R000";
+	public static String adjustWall="A";
+	public static String adjustCorner="C";
+	public static int stepwent=0;
+	
+	//new global values
+		public static int[][] heuValue=new int[20][15];
+		public static int[][] gValue=new int[20][15];
+		public static Node[][] pathNode=new Node[20][15];
+		public static int[][] obsMap;
+		public static PriorityQueue<Node> pQueue;
+		public static int startX=18,startY=1;
+		public static int[][] sempFPMap=new int[20][15];
+		public static ArrayList<pathCoor> fsPaint=new ArrayList<pathCoor>();
+		public static ArrayList <pathCoor> realsteps=new ArrayList<pathCoor>();
+		
+		public static boolean realRun=true;
+		public static String lastSend=moveForward;
+		//public static long readTimerstart,readTimerend;
+		public static int timeLimit=999;
+		public static int steps=10;
+		public static int coverageLimit=101;
+		public static boolean fastestPath=false;
+		public static boolean meetCorner=false;
+		
+	
+}

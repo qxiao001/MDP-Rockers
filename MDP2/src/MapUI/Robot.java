@@ -109,8 +109,8 @@ public class Robot {
 				{
 					//System.out.println("There is error in reading string: "	+ str);
 					//System.out.println("The st count is "+st.countTokens());
-					Global.c.mySend("F000");
-					//System.out.println("I have sent robot to make no movement F000");
+					Global.c.mySend("F000/");
+					System.out.println("I have sent robot to make no movement F000");
 				}
 
 			} catch (IOException e) {
@@ -417,8 +417,7 @@ public class Robot {
 
 	public void senseFM() {
 		int clean = 1;
-		System.out
-				.println("The middle front (f2) sensor vlaue is: " + FM + ".");
+		//System.out.println("The middle front (f2) sensor vlaue is: " + FM + ".");
 		if (FM == -1 || FM >= 3) {FM = 2;clean = 0;} 
 		switch (ori) {
 		case 'D':

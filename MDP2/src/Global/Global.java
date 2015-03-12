@@ -27,10 +27,12 @@ public class Global {
 	public static ServerSocket sc;
 	public static DatagramSocket client;
 	public static Client c= new Client();
-	public static String moveForward="F010";
-	public static String turnLeft="L000";
-	public static String turnRight="R000";
-	public static String adjust="A";
+	public static String moveForward="F010/";
+	public static String turnLeft="L000/";
+	public static String turnRight="R000/";
+	public static String adjustWall="A000/";
+	public static String adjustCorner="C000/";
+	public static int stepwent=0;
 	
 	//new global values
 		public static int[][] heuValue=new int[20][15];
@@ -43,7 +45,7 @@ public class Global {
 		public static ArrayList<pathCoor> fsPaint=new ArrayList<pathCoor>();
 		public static ArrayList <pathCoor> realsteps=new ArrayList<pathCoor>();
 		
-		public static boolean realRun=false;
+		public static boolean realRun=true;
 		public static String lastSend=moveForward;
 		//public static long readTimerstart,readTimerend;
 		public static int timeLimit=999;

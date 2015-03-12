@@ -285,9 +285,28 @@ public class Simulator extends JFrame implements ActionListener  {
 }
 
 
-	
+	public void adjustWall(){
+		try{
+			Global.c.mySend(Global.adjustWall);
+			Global.lastSend=Global.adjustWall;
+			Global.stepwent = 0;
+			System.out.println("sending robot adjust calibration at wall");
+			
+		}
+		catch (IOException e1){
+			e1.printStackTrace();
+			Global.stepwent= 3;
+		}
+	}
 	public void moveForward() {
 		if(Global.realRun==true){
+			if ((Global.stepwent>=3) && ((Global.currCX==1)|| (Global.currCX == 18) || (Global.currCY == 1) || (Global.currCY == 13)))
+			{
+				adjustWall();
+			}
+			else
+				Global.stepwent++;
+			
 			try {
 				
 				Global.c.mySend(Global.moveForward);
@@ -431,6 +450,7 @@ public void moveForward1() {
 		paintRobotMap();
 		setRobot();
 		//Global.readTimerstart=System.nanoTime();
+		//Global.stepswent++;
 	}
 	public void turnRight1() {
 		
@@ -522,12 +542,12 @@ public void moveForward1() {
 				char ori = ' ';
 				char lastOri = ' ';
 				int minX = 0, rightMinX = 0;
-				int adjustCount = 0;
+				int adjustCount = 0, moveDownCount = 0;
 				int pathCX = -1, pathCY = -1;     //turning point to go down
 				int faceLeftFrontLeftBlockedY = 15, faceRightFrontLeftBlockedY = 15, faceUpFrontLeftBlockedX = 0, faceDownFrontLeftBlockedY = 0; 
 				int middleUnexploredY = 0;
-				boolean downRightIsUnexplored = false, upRightUnexplored = false, rightRightUnexplored = false, middleUnexplored = false;
-				boolean reachTop = false, reachGoal = false, stop = false;
+				boolean downRightIsUnexplored = false, upRightUnexplored = false, middleUnexplored = false;
+				boolean reachTop = false, reachGoal = false, reachBottom = false, stop = false;
 				boolean anotherPath = false;
 				
 				boolean faceLeftFrontLeftBlocked = false;   //after reaching goal, dead end found when facing left
@@ -540,7 +560,7 @@ public void moveForward1() {
 				boolean caveOnBottomLeft = false; int caveOnBottomLeftX = 0;
 				boolean caveOnLeftWallRight = false; int caveOnLeftWallRightY = 0;
 				boolean caveOnTopRight = false; int caveOnTopRightX = 0;
-				boolean upFrontBlocked = false;
+				boolean upFrontBlocked = false, downFrontBlocked = false;;
 				
 				//mapLeftBlocked2 = false
 				boolean turnBack = false, turnBack2 = false;
@@ -569,29 +589,32 @@ public void moveForward1() {
 				{
 					lastOri = ori;
 					ori = robot.checkOri();
-//					adjustCount = 0;
-//					/******************************************************** Adjust Calibration ********************************************/
-//					if(Global.realRun==true){
-//						while (adjustCount < 1){
-//							
-//							if (!frontEmpty(ori) && (!rightEmpty(ori) || !leftEmpty(ori))){
-//								try {
-//									Global.c.mySend(Global.adjust);
-//									Global.lastSend=Global.adjust;
-//									adjustCount++;
-//									
-//									System.out.println("I have sent robot to adjust calibration.");
-//								} catch (IOException e1) {
-//									// TODO Auto-generated catch block
-//									e1.printStackTrace();
-//									adjustCount=0;
-//								} 
-//							}
-//							else
-//								adjustCount=1;
-//						}
-//					}
-//					
+					adjustCount = 0;
+					/******************************************************** Adjust Calibration ********************************************/
+					/*if(Global.realRun==true){
+						while (adjustCount < 1){
+							
+							if (front3GridsBlocked(ori) && mapLeftMiddleBlocked()){
+								try {
+									Global.c.mySend(Global.adjustCorner);
+									Global.lastSend=Global.adjustCorner;
+									adjustCount++;
+									
+									System.out.println("I have sent robot to adjust calibration.");
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+									adjustCount=0;
+								} 
+							}
+							else
+								adjustCount=1;
+						}
+					}*/
+		       	
+					
+					
+					
 					/******************************************************** Facing Up *****************************************************/
 					if (ori == 'U') 
 					{						
@@ -651,7 +674,6 @@ public void moveForward1() {
 									else if (middleUnexplored && mapLeft3RowsExplored(reachGoal) && mapRight3RowsExplored())  //both sides are explored when moving up into to middle area of arena 
 										{
 										turnLeft();
-										System.out.println("???????????????????????????");
 										}
 									else
 										moveForward();
@@ -666,14 +688,16 @@ public void moveForward1() {
 								if (!reachGoal && !mapLeft3RowsExplored(reachGoal))
 									turnLeft();
 								
+								else if (faceLeftFrontLeftBlocked && leftEmpty(ori) && !middleUnexplored && (Global.currCX < minX)) //up->left, just came out from a dead end on left, going left
+									turnLeft();
 								else if (turnBack)
 									turnLeft();
 								
 								else if (!mapRight3RowsExplored())
 									turnRight();
 								
-								else if (faceLeftFrontLeftBlocked && (leftEmpty(ori)))
-									turnLeft();
+//								else if (faceLeftFrontLeftBlocked && (leftEmpty(ori)))
+//									turnLeft();
 								
 //								else if (!reachGoal && !leftEmpty(ori))
 //								{
@@ -701,6 +725,7 @@ public void moveForward1() {
 								{
 									caveOnBottomLeft = true;
 									faceLeftFrontLeftBlocked = false;
+									//downFrontBlocked = false;
 									caveOnBottomLeftX = Global.currCX;
 									turnRight();
 								}
@@ -738,10 +763,11 @@ public void moveForward1() {
 //							{
 //								turnLeft();
 //							}
-							
+							upFrontBlocked = true;
 							if (!reachGoal && !mapLeft3RowsExplored(reachGoal))
 								turnLeft();
-							
+							else if (faceLeftFrontLeftBlocked && leftEmpty(ori) && !middleUnexplored && (Global.currCX < minX)) //up->left, just came out from a dead end on left, going left
+								turnLeft();
 							else if (!mapRight3RowsExplored())
 								turnRight();
 							
@@ -856,17 +882,20 @@ public void moveForward1() {
 							{
 								turnRight();
 							}
-								
+							else if (middleUnexplored && (Global.currCY == middleUnexploredY))
+							{
+								middleUnexplored = false;
+								turnRight();
+							}
 							else if (caveOnBottomLeft && leftEmpty(ori))
 								turnLeft();
 							
 							else if (faceLeftFrontLeftBlocked && leftEmpty(ori)) //dead end on left
 								turnLeft();
-										
-							else if ((Global.currCX != 18) && (Global.exploreMap[Global.currCX - 2][Global.currCY + 1] == 0) && (Global.exploreMap[Global.currCX + 2][Global.currCY + 1] == 0))
+							
+							else if ((Global.currCX != 18) && (Global.exploreMap[Global.currCX - 2][Global.currCY + 1] == 0))
 							{
 								turnLeft();
-								rightRightUnexplored = true;
 							}
 							else if (Global.exploreMap[Global.currCX - 2][Global.currCY + 1] == 0)
 								turnLeft();
@@ -892,9 +921,7 @@ public void moveForward1() {
 						if (Global.currCY != 1)
 						{
 							if (caveOnTopRight && leftEmpty(ori))   //come out from dead end on right, going down to next X
-							{
 								turnLeft();
-							}
 							
 							//the front is empty
 							else if (frontEmpty(ori))
@@ -909,26 +936,26 @@ public void moveForward1() {
 									}
 									else if (leftUnexplored(ori))
 										turnLeft(); 
+									
 									else if (!mapLeft3RowsExplored(reachGoal))
 										moveForward();
 									
-									else if ((Global.currCY == 1) && (Global.exploreMap[Global.currCX + 2][Global.currCY - 1] == 0))
+//									else if ((Global.currCY == 1) && (Global.exploreMap[Global.currCX + 2][Global.currCY - 1] == 0))
+//										turnLeft();
+									
+									else if ((Global.currCX == 1) && upDown3RowsExplored() && mapLeft3RowsExplored(reachGoal))
+									{
 										turnLeft();
+										System.out.println("here>>>>>>>>>>>>>>>>>>");
+									}
 									
 									else if (faceRightFrontLeftBlocked && !leftEmpty(ori))  //come out from dead end on right
 										moveForward();
 									
-									
-									
 									else if ((reachTop) && (lastOri == 'U'))  //not came from down
 										moveForward();
 									
-									else if ((reachTop) && (lastOri != 'D') && (Global.robotMap[Global.currCX + 2][Global.currCY + 1] == 0) && (Global.robotMap[Global.currCX + 2][Global.currCY] == 0) && (Global.robotMap[Global.currCX + 2][Global.currCY - 1] == 0))
-										turnLeft();
-
-									else if ((Global.currCX == 1) && mapLeft3RowsExplored(reachGoal))
-										
-										turnLeft();
+									
 									else
 										moveForward();
 			                    }
@@ -945,21 +972,22 @@ public void moveForward1() {
 										moveForward();
 										caveOnBottomLeft = false;
 										anotherPath = false;
-										//mapLeftBlocked = false;
 									}
 									
-									else if ((Global.currCX < 3) && leftEmpty(ori))  //at top wall
+									else if ((Global.currCX < 3) && leftEmpty(ori) && !faceLeftFrontLeftBlocked)  //at top wall
 										turnLeft();
 									
-									else if ((Global.currCY == 13) && rightRightUnexplored)  //at right wall
-									{
-										rightRightUnexplored = false;
-										turnLeft();
-									}
 									else if ((Global.currCX > 3) && (Global.currCY == 5) && (Global.exploreMap[Global.currCX - 2][Global.currCY - 1] == 0)) //top right grid unexplored at turning point(y=5)
 										turnRight();
 									
-									else if ((Global.currCY < 6) && (Global.currCX != 18) && anotherPath) //turn back to right wall
+									else if (anotherPath && mapLeft3RowsExplored(reachGoal) && upDown3RowsExplored() && !faceLeftFrontLeftBlocked)  //left 9 rows explored, turn back
+									{
+										turnLeft();
+										turnBack = true;
+										if (middleUnexplored)
+											middleUnexplored = false;
+									}
+									else if ((Global.currCY < 6) && anotherPath) //turn back to right wall
 									{
 										turnLeft();
 										turnBack = true;
@@ -973,25 +1001,21 @@ public void moveForward1() {
 										anotherPath = false;
 										moveForward();
 									}
-//									else if (leftEmpty(ori) && !mapLeftBlocked) //come back from left, going down
-//									{
-//										turnLeft();
-//									}
-									else if ((Global.currCY > 4) && leftEmpty(ori) && !anotherPath && !middleUnexplored) //come out from left dead end, going down
+									else if ((Global.currCY > 4) && leftEmpty(ori) && !anotherPath && !middleUnexplored && (Global.currCY < faceLeftFrontLeftBlockedY)) //come out from left dead end, going down
 									{
 										turnLeft();	
 										faceLeftFrontLeftBlockedY = 15;
 									}
-									
 									else
-									{
 										moveForward();
-									}
 								}
 							}
 							//front is blocked
 							else
 							{
+//								if (downFrontBlocked)  
+//									faceLeftFrontLeftBlocked = true;
+									
 								if (!leftEmpty(ori)){
 									faceLeftFrontLeftBlocked = true;
 									faceLeftFrontLeftBlockedY = Global.currCY;
@@ -1008,16 +1032,13 @@ public void moveForward1() {
 									minX = Global.currCX + 1;
 								}
 								else if (Global.currCX == 1)  //at top wall
-								{
 									turnLeft();
-								}
 								
 								else if ((Global.currCX > 3) && (Global.currCY > 4) && (Global.exploreMap[Global.currCX - 2][Global.currCY - 1] == 0)) //top right grid unexplored before/when reaching turning point(y=5)
 								{
 									turnRight();
 									turnBack = true;
 								}
-								
 								else if (reachGoal && (Global.currCY > 4) && (Global.currCX != 18) && anotherPath) //meet obstacle before/when reaching turning point(y=5)
 								{
 									turnLeft();
@@ -1025,7 +1046,6 @@ public void moveForward1() {
 									if (middleUnexplored)
 										middleUnexplored = false;
 								}
-								
 								else if (reachGoal && (Global.currCY > 4) && (Global.currCX != 18) && middleUnexplored) //meet obstacle before/when reaching turning point(y=5)
 								{
 									turnLeft();
@@ -1040,10 +1060,6 @@ public void moveForward1() {
 								}
 								else
 								{
-//									if (!rightUnexplored(ori) && leftEmpty(ori))
-//										turnLeft();
-//									
-//									else 
 									if (anotherPath)
 										turnLeft();
 									
@@ -1059,11 +1075,8 @@ public void moveForward1() {
 										minX = Global.currCX + 1;
 										turnLeft();
 									}
-									//not confirm
 									else
-									{
 										turnRight();
-									}
 								}
 							}
 						}
@@ -1086,7 +1099,7 @@ public void moveForward1() {
 						}
 					} // end of 'L'
 					
-					/*************************************************** Facing Down ********************************************/
+					/**************************************************** Facing Down **********************************************************************************/
 					
 					else 
 					{
@@ -1109,19 +1122,17 @@ public void moveForward1() {
 							else if ((caveOnLeftWallRight || (caveOnTopRight && (Global.currCX > caveOnTopRightX))) && leftEmpty(ori))
 							{
 								turnLeft();
+								caveOnTopRight = false;
 							}
 							
 							//front is empty
 							else if (frontEmpty(ori))
 							{
-								
 								//not at right wall
 								if (Global.currCY != 13)
 								{
 									if ((caveOnLeftWallRight || caveOnTopRight) && !leftEmpty(ori))
 										moveForward();
-									
-									
 									
 									else if (!reachGoal)
 									{
@@ -1131,10 +1142,6 @@ public void moveForward1() {
 											turnLeft();
 											faceRightFrontLeftBlocked = false;
 										}
-											
-//										else if (!mapLeft3RowsExplored(reachGoal))
-//											turnRight();
-//										
 										else if ((Global.currCX == 1) && !mapRight3RowsExplored())
 											turnLeft();
 //										else if (mapRightBlocked)
@@ -1155,39 +1162,54 @@ public void moveForward1() {
 										{
 											turnLeft();
 											turnBack = false;
+											moveDownCount = 0;
 										}
-										else if (!mapRightRow1Explored())
+										else if (!mapRightRow1Explored() || (leftEmpty(ori) && (lastOri != 'L') && !reachBottom)){  //facing down, map right row1 unexplored or it is empty but not really explored
 											turnLeft();
-//										else if (!mapRight3RowsExplored())  //got left first since will turn back later
-//											turnLeft();
-										
-										else if (!mapLeftRow1Explored()){
-											if (!mapRight3RowsExplored())
-												turnLeft();
-											else
-												turnRight();
+											moveDownCount = 0;
 										}
+										else if (!mapLeftRow1Explored() && !mapLeft3RowsExplored(reachGoal)){  //facing down, map left row1 unexplored
+											turnRight();
+											moveDownCount = 0;
+										}
+										
+										else if ((!upDown3RowsExplored() || !mapLeft3RowsExplored(reachGoal)) && rightEmpty(ori) && (lastOri != 'R') && (moveDownCount == 3) && (Global.currCX < 16)){  //facing down, map left row1 unexplored or it is empty but not really explored
+											turnRight();
+											moveDownCount = 0;
+										}
+										
 										else  //both sides explored
+										{
+											if (moveDownCount == 3)
+												moveDownCount = 0;
 											moveForward();
+											moveDownCount++;
+										}
 									}
 								}
 								//at right wall
 								else if (Global.currCY == 13)
 								{
-									if (!mapLeftRow1Explored()) 
+									if (!mapLeftRow1Explored() && !mapLeft3RowsExplored(reachGoal)) 
+									{	
 										turnRight();
-										
+										moveDownCount = 0;
+										System.out.println("hereeeeeeeeeee");
+									}
 									else
 									{	
+										if (moveDownCount == 3)
+											moveDownCount = 0;
 										moveForward();
-//										if (turnBack2)
-//											turnBack2 = false;
+										moveDownCount++;
 									}
 								}
 							}
 							//front is blocked							
 							else
 							{	
+								moveDownCount = 0;
+								downFrontBlocked = true;
 								if (upFrontBlocked && faceRightFrontLeftBlocked && !leftEmpty(ori)){
 									caveOnTopRight = true;
 									upFrontBlocked = false;
@@ -1198,9 +1220,7 @@ public void moveForward1() {
 								else if (!reachGoal)
 								{
 									if (Global.currCY == 1)  //top left corner
-									{
 										turnLeft();
-									}
 									
 									else if (faceRightFrontLeftBlocked && leftEmpty(ori))
 									{	
@@ -1213,9 +1233,7 @@ public void moveForward1() {
 //									else if (!leftEmpty(ori))
 //										turnRight();
 									else 
-									{
 										turnRight();
-									}
 								}
 								else
 								{
@@ -1223,12 +1241,10 @@ public void moveForward1() {
 									{
 										turnLeft();
 										turnBack = false;
-										turnBack2 = true;
+										//turnBack2 = true;
 									}
 									else if (Global.currCY == 13) //at right wall
-									{
 										turnRight();
-									}
 									
 									else if (!mapRight3RowsExplored())
 										turnLeft();
@@ -1237,33 +1253,27 @@ public void moveForward1() {
 										turnRight();
 									
 									else if (!rightEmpty(ori))
-									{
 										turnLeft();
-									}
 									else
-									{
 										turnRight();
-									}
 								}
 							}
 						}
 						//at bottom wall
 						else
 						{
+							reachBottom = true;
+							downFrontBlocked = true;
 							if (downRightIsUnexplored == true)  //bottom right unexplored
 							{
 								turnRight();
 								downRightIsUnexplored = false;
 							}
 							else if ((Global.currCX == 18) && (Global.currCY == 1)) //at bottom left corner
-							{
 								turnLeft();
-							}
 							
 							else if ((Global.currCX == 18) && (Global.currCY == 13))  //at bottom right corner
-							{
 								turnRight();
-							}
 							
 							else if ((Global.exploreMap[Global.currCX + 1][Global.currCY - 2] == 0) && (Global.exploreMap[Global.currCX + 1][Global.currCY + 2] == 0))  //both sides are unexplored
 							{
@@ -1279,9 +1289,7 @@ public void moveForward1() {
 							else if (leftEmpty(ori) && (lastOri != 'R') && !reachGoal)
 								turnLeft();
 							else 
-							{
 								turnRight();
-							}
 						}
 					} // end if 'D' 
 							
@@ -1296,21 +1304,6 @@ public void moveForward1() {
 
 					if ((Global.currCX == 1) && (Global.currCY == 13))
 						reachGoal = true;
-					
-//					if (reachGoal && (Global.currCX == 18) && (Global.currCY == 1) && (robot.checkOri() != 'U'))
-//					{
-//						char o = robot.checkOri();
-//						if (o == 'L')
-//							turnRight();
-//						else if (o == 'D')
-//							turnLeft();
-//						else if (o == 'R')
-//							turnLeft();
-//						if (!Global.realRun){
-//							try {sleep(1000/Global.steps);} 
-//							catch (InterruptedException ex) {}
-//						}
-//					}
 					
 					if (reachGoal && (Global.currCX == 18) && (Global.currCY == 1) && (robot.checkOri() == 'U'))
 					{
@@ -1339,6 +1332,52 @@ public void moveForward1() {
 	
     /******************************************** End of EXPLORE ***********************************************/
     
+	public boolean upDown3RowsExplored() {
+		boolean explored = true;
+		int minY = 3, minCY = 4;
+		if (Global.currCX == 1)
+		{
+			minY = -1;
+			minCY = 0;
+		}
+		
+		if (Global.currCY > minCY) {
+			for (int j = -4; j < -1; j++){
+				if ((Global.currCX + j) < 0)
+					break;
+				else{
+					for (int i = Global.currCY - 1; i > minY; i--){
+						if (Global.exploreMap[Global.currCX + j][i] == 0){
+							explored = false;
+							break;
+						}
+					}
+					if (!explored)
+						break;
+				}
+			}
+			
+			if (explored){
+				for (int j = 2; j < 5; j++){
+					if ((Global.currCX + j) > 16)
+						break;
+					else{
+						for (int i = Global.currCY - 1; i > minY; i--){
+							if (Global.exploreMap[Global.currCX + j][i] == 0){
+								explored = false;
+								break;
+							}
+						}
+						if (!explored)
+							break;
+					}
+				}
+			}
+		} 
+		return explored;
+		
+	}
+	
 	//************************************ return TRUE if map left 3 rows are explored ********************************
  
 	public boolean mapLeft3RowsExplored(boolean reachGoal) {
@@ -1482,12 +1521,24 @@ public void moveForward1() {
 		   }
 	  } return row2Explored;
 	}
+	
+	public boolean mapLeftMiddleBlocked(){
+		boolean blocked = false;
+		if (Global.currCY > 1){
+		   for (int i = Global.currCY - 2; i > -1; i--){   			
+			  if (Global.robotMap[Global.currCX][i] >= 1){
+				  blocked = true;
+				  break;
+			  }
+		   }
+	  } return blocked;
+	}
 
 	public boolean mapLeftRow3Explored() {
 		boolean row3Explored = true;
 		if (Global.currCY > 5) {
 			for (int i = Global.currCY - 2; i > 3; i--) {
-				if (Global.robotMap[Global.currCX + 1][i] == 1)
+				if (Global.robotMap[Global.currCX + 1][i] >= 1)
 					break;
 				else if (Global.exploreMap[Global.currCX + 1][i] == 0)
 				{
@@ -1502,7 +1553,8 @@ public void moveForward1() {
 		boolean row1Explored = true;
 		if (Global.currCY < 13) {
 			for (int i = Global.currCY + 2; i < 15; i++) {
-				if (Global.robotMap[Global.currCX - 1][i] == 1)
+				System.out.println("THis is robot map update"+Global.robotMap[Global.currCX - 1][i]);
+				if (Global.robotMap[Global.currCX - 1][i] >= 1)
 					break;
 				else if (Global.exploreMap[Global.currCX - 1][i] == 0)
 				{
@@ -1510,14 +1562,15 @@ public void moveForward1() {
 					break;
 				}
 			}
-		} return row1Explored;
+		} 
+		return row1Explored;
 	}
 
 	public boolean mapRightRow2Explored() {
 		boolean row2Explored = true;
 		if (Global.currCY < 13) {
 			for (int i = Global.currCY + 2; i < 15; i++) {
-				if (Global.robotMap[Global.currCX][i] == 1)
+				if (Global.robotMap[Global.currCX][i] >= 1)
 					break;
 				else if (Global.exploreMap[Global.currCX][i] == 0)
 				{
@@ -1532,7 +1585,9 @@ public void moveForward1() {
 		boolean row3Explored = true;
 		if (Global.currCY < 13) {
 			for (int i = Global.currCY + 2; i < 15; i++) {
-				if (Global.exploreMap[Global.currCX + 1][i] == 0) {
+				if (Global.robotMap[Global.currCX + 1][i] >= 1)
+					break;
+				else if (Global.exploreMap[Global.currCX + 1][i] == 0) {
 					row3Explored = false;
 					break;
 				}
@@ -1604,6 +1659,30 @@ public void moveForward1() {
 		}
 		else 
 			return true;
+	}
+	
+	//check if front 3 grids are blocked
+	public boolean front3GridsBlocked(char orientation){
+		boolean blocked = false;
+		switch (orientation){
+		 case 'U':  //not at top wall
+             if ((Global.currCX != 1) && (Global.robotMap[Global.currCX - 2][Global.currCY + 1] >= 1) && (Global.robotMap[Global.currCX - 2][Global.currCY] >= 1) && (Global.robotMap[Global.currCX - 2][Global.currCY - 1] >= 1))
+            	 blocked = true;   
+             break;
+		 case 'R':  //not at right wall
+             if ((Global.currCY != 13) && (Global.robotMap[Global.currCX - 1][Global.currCY + 2] >= 1) && (Global.robotMap[Global.currCX][Global.currCY + 2] >= 1) && (Global.robotMap[Global.currCX + 1][Global.currCY + 2] >= 1))
+            	 blocked = true;
+              break;
+		 case 'L':  //not at left wall
+	        	if ((Global.currCY != 1) && (Global.robotMap[Global.currCX + 1][Global.currCY - 2] >= 1) && (Global.robotMap[Global.currCX][Global.currCY - 2] >= 1) && (Global.robotMap[Global.currCX - 1][Global.currCY - 2] >= 1))
+	        		blocked = true;
+             break;
+		 case 'D':	//not at bottom wall
+	        	if ((Global.currCX != 18) && (Global.robotMap[Global.currCX + 2][Global.currCY - 1] >= 1) && (Global.robotMap[Global.currCX + 2][Global.currCY] >= 1) && (Global.robotMap[Global.currCX + 2][Global.currCY + 1] >= 1))
+	        		blocked = true;
+             break;
+		}
+		return blocked;
 	}
 
 	 //****************************** return TRUE if front 3 grids are empty **********************
