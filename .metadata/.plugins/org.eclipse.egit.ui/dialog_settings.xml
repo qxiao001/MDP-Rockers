@@ -7,12 +7,12 @@
 		<item value="https://github.com/qxiao001/MDP-Rockers.git"/>
 	</list>
 	<list key="CommitDialog.authorValues">
-		<item value="qixao001 &lt;miaxiii@gmail.com&gt;"/>
 		<item value="Nachiket &lt;nachiket@gmail.com&gt;"/>
+		<item value="qixao001 &lt;miaxiii@gmail.com&gt;"/>
 	</list>
 	<list key="CommitDialog.committerValues">
-		<item value="qixao001 &lt;miaxiii@gmail.com&gt;"/>
 		<item value="Nachiket &lt;nachiket@gmail.com&gt;"/>
+		<item value="qixao001 &lt;miaxiii@gmail.com&gt;"/>
 	</list>
 	<section name="org.eclipse.egit.ui.internal.dialogs.ResetTargetSelectionDialog.dialogBounds">
 		<item value="538" key="DIALOG_WIDTH"/>

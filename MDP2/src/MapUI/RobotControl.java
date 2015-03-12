@@ -32,7 +32,7 @@ public class RobotControl {
         map.pack();                                               //sets appropriate size for frame
         map.setVisible(true);
 		System.out.println("here");
-        Global.c.mySend("F000");
+        Global.c.mySend("F000/");
         
 		
 	}

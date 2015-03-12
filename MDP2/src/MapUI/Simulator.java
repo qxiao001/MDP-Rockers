@@ -569,29 +569,29 @@ public void moveForward1() {
 				{
 					lastOri = ori;
 					ori = robot.checkOri();
-					adjustCount = 0;
-					/******************************************************** Adjust Calibration ********************************************/
-					if(Global.realRun==true){
-						while (adjustCount < 1){
-							
-							if (!frontEmpty(ori) && (!rightEmpty(ori) || !leftEmpty(ori))){
-								try {
-									Global.c.mySend(Global.adjust);
-									Global.lastSend=Global.adjust;
-									adjustCount++;
-									
-									System.out.println("I have sent robot to adjust calibration.");
-								} catch (IOException e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-									adjustCount=0;
-								} 
-							}
-							else
-								adjustCount=1;
-						}
-					}
-					
+//					adjustCount = 0;
+//					/******************************************************** Adjust Calibration ********************************************/
+//					if(Global.realRun==true){
+//						while (adjustCount < 1){
+//							
+//							if (!frontEmpty(ori) && (!rightEmpty(ori) || !leftEmpty(ori))){
+//								try {
+//									Global.c.mySend(Global.adjust);
+//									Global.lastSend=Global.adjust;
+//									adjustCount++;
+//									
+//									System.out.println("I have sent robot to adjust calibration.");
+//								} catch (IOException e1) {
+//									// TODO Auto-generated catch block
+//									e1.printStackTrace();
+//									adjustCount=0;
+//								} 
+//							}
+//							else
+//								adjustCount=1;
+//						}
+//					}
+//					
 					/******************************************************** Facing Up *****************************************************/
 					if (ori == 'U') 
 					{						
@@ -631,6 +631,8 @@ public void moveForward1() {
 									{
 										moveForward();
 									}
+									else if (turnBack)
+										turnLeft();
 									
 									else if (!mapFront3ColumnsExplored())  //robot does not explore middle area of arena
 									{
@@ -662,6 +664,9 @@ public void moveForward1() {
 								upFrontBlocked = true;
 								
 								if (!reachGoal && !mapLeft3RowsExplored(reachGoal))
+									turnLeft();
+								
+								else if (turnBack)
 									turnLeft();
 								
 								else if (!mapRight3RowsExplored())
@@ -1008,7 +1013,10 @@ public void moveForward1() {
 								}
 								
 								else if ((Global.currCX > 3) && (Global.currCY > 4) && (Global.exploreMap[Global.currCX - 2][Global.currCY - 1] == 0)) //top right grid unexplored before/when reaching turning point(y=5)
+								{
 									turnRight();
+									turnBack = true;
+								}
 								
 								else if (reachGoal && (Global.currCY > 4) && (Global.currCX != 18) && anotherPath) //meet obstacle before/when reaching turning point(y=5)
 								{
@@ -1654,7 +1662,7 @@ public void moveForward1() {
 		      boolean rightIsEmpty = false;
 		      switch (orientation){
 		         case 'U':  //not at right wall
-		                    if ((Global.currCY != 18) && (Global.robotMap[Global.currCX + 1][Global.currCY + 2] == 0) && (Global.robotMap[Global.currCX][Global.currCY + 2] == 0) && (Global.robotMap[Global.currCX - 1][Global.currCY + 2] == 0))
+		                    if ((Global.currCY != 13) && (Global.robotMap[Global.currCX + 1][Global.currCY + 2] == 0) && (Global.robotMap[Global.currCX][Global.currCY + 2] == 0) && (Global.robotMap[Global.currCX - 1][Global.currCY + 2] == 0))
 		                    	rightIsEmpty = true;   
 		                    break;
 		         case 'R':  //not at bottom wall

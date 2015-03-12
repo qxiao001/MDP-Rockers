@@ -37,7 +37,6 @@ public class Robot {
 			while(!readyToRead){
 				try {
 					checkString = Global.c.myReceive();
-					System.out.println("check String: " + checkString);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -64,13 +63,13 @@ public class Robot {
 					e.printStackTrace();
 				}
 			}
-			System.out.println("Recevied from rpi(we process this):" + str);
+			//System.out.println("Recevied from rpi(we process this):" + str);
 			
-			System.out.print("FrontLeft = " + FL + ", ");
-			System.out.print("FrontMiddle = " + FM + ", ");
-			System.out.print("FrontRight =  " + FR + ", ");
-			System.out.print("Left =  " + L + ", ");
-			System.out.println("Right = " + R);
+			//System.out.print("FrontLeft = " + FL + ", ");
+			//System.out.print("FrontMiddle = " + FM + ", ");
+			//System.out.print("FrontRight =  " + FR + ", ");
+			//System.out.print("Left =  " + L + ", ");
+			//System.out.println("Right = " + R);
 			str=null;
 			
 			readyToRead=false;
@@ -85,12 +84,15 @@ public class Robot {
 		while(!readyToRead){
 			try {
 				checkString = Global.c.myReceive();
-				System.out.println("check String: " + checkString);
+				System.out.println("I get the string before processing: "+checkString);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			if(checkString.charAt(0)=='O' && checkString.charAt(1)=='K') readyToRead=true;
+			if(checkString.charAt(0)=='O' && checkString.charAt(1)=='K') 
+			{
+				readyToRead=true;
+			}
 
 		}
 		while (notOk ) {
@@ -105,10 +107,10 @@ public class Robot {
 					{notOk = false;}
 				else
 				{
-					System.out.println("There is error in reading string: "	+ str);
-					System.out.println("The st count is "+st.countTokens());
+					//System.out.println("There is error in reading string: "	+ str);
+					//System.out.println("The st count is "+st.countTokens());
 					Global.c.mySend("F000");
-					System.out.println("I have sent robot to make no movement F000");
+					//System.out.println("I have sent robot to make no movement F000");
 				}
 
 			} catch (IOException e) {
@@ -122,11 +124,11 @@ public class Robot {
 		FR = Integer.parseInt(st.nextToken());
 		L = Integer.parseInt(st.nextToken());
 		R = Integer.parseInt(st.nextToken());
-		System.out.print("FrontLeft = " + FL + ", ");
-		System.out.print("FrontMiddle = " + FM + ", ");
-		System.out.print("FrontRight =  " + FR + ", ");
-		System.out.print("Left =  " + L + ", ");
-		System.out.println("Right = " + R);
+		//System.out.print("FrontLeft = " + FL + ", ");
+		//System.out.print("FrontMiddle = " + FM + ", ");
+		//System.out.print("FrontRight =  " + FR + ", ");
+		//System.out.print("Left =  " + L + ", ");
+		//System.out.println("Right = " + R);
 		str=null;
 		//sendalready=0;
 		
@@ -163,7 +165,7 @@ public class Robot {
 	public void getReadings(String str) {
 		// 5,4,3,2,1 F1 F2 F3 L R 1,2,3 FROM LEFT TO RIGHT
 		try {
-			System.out.println(str);
+			//System.out.println(str);
 			String[] parts = str.split(",");
 			FL = Integer.parseInt(parts[0]);
 			FM = Integer.parseInt(parts[1]);
@@ -182,11 +184,11 @@ public class Robot {
 			 */
 			//
 		}
-		System.out.println("F1 " + FL);
-		System.out.println("F2 " + FM);
-		System.out.println("F3 " + FR);
-		System.out.println("L " + L);
-		System.out.println("R " + R);
+		//System.out.println("F1 " + FL);
+		//System.out.println("F2 " + FM);
+		//System.out.println("F3 " + FR);
+		//System.out.println("L " + L);
+		//System.out.println("R " + R);
 		// System.out.println(F1);
 		// if (F1==-1)F1=0;if(F2==-1)F2=0;
 		// if(F3==-1)F3=0;if(L==-1)L=0;if(R==-1)R=0;
@@ -214,7 +216,7 @@ public class Robot {
 
 	public void senseSL() {
 		int clean = 1;
-		System.out.println("The left sensor vlaue is: " + L + ".");
+		//System.out.println("The left sensor vlaue is: " + L + ".");
 		if (L == -1 || L >= 3) // no obs to set
 		{
 			L = 2;
@@ -265,7 +267,7 @@ public class Robot {
 
 	public void senseSR() {
 		int clean = 1;
-		System.out.println("The right sensor vlaue is: " + R + ".");
+		//System.out.println("The right sensor vlaue is: " + R + ".");
 		if (R == -1 || R >= 3) {
 			R = 2;
 			clean = 0;
@@ -313,7 +315,7 @@ public class Robot {
 
 	public void senseFR() {
 		int clean = 1;
-		System.out.println("The right front (f3) sensor vlaue is: " + FR + ".");
+		//System.out.println("The right front (f3) sensor vlaue is: " + FR + ".");
 		if (FR == -1 || FR >= 3) {
 			FR = 2;
 			clean = 0;
@@ -363,7 +365,7 @@ public class Robot {
 
 	public void senseFL() {
 		int clean = 1;
-		System.out.println("The left front (f1) sensor vlaue is: " + FL + ".");
+		//System.out.println("The left front (f1) sensor vlaue is: " + FL + ".");
 		if (FL == -1 || FL >= 3) {
 			FL = 2;
 			clean = 0;
@@ -431,14 +433,14 @@ public class Robot {
 
 			break;
 		case 'U':
-			System.out.println("F2 IS :" + FM);
+			//System.out.println("F2 IS :" + FM);
 			for (int i = 0; i <= FM; i++) {
 				if (Global.currCX - i - 2 < 0)
 					break; // is it right? so as not to less than 0
 				Global.exploreMap[Global.currCX - i - 2][Global.currCY] = 1;
 			}
 			if ((Global.currCX - FM - 2 > 0)) {
-				System.out.println("Facing up clean value is  : " + clean);
+				//System.out.println("Facing up clean value is  : " + clean);
 				Global.robotMap[Global.currCX - FM - 2][Global.currCY] = clean;
 			}
 			break;
@@ -468,7 +470,7 @@ public class Robot {
 
 	public void senseSL1() {
 		int clean=1; 
-		System.out.println("The left sensor vlaue is: "+ L +".");
+		//System.out.println("The left sensor vlaue is: "+ L +".");
 		int actualReading=L;
 		if(L==-1 || L>=3) //no obs to set
 			{L=2;}
@@ -593,7 +595,8 @@ public class Robot {
 	}
 	public void senseSR1() {
 		int clean = 1;
-		System.out.println("The right sensor vlaue is: " + R + ".");int actualReading=R;int currValue;
+		//System.out.println("The right sensor vlaue is: " + R + ".");
+		int actualReading=R;int currValue;
 		if (R == -1 || R >= 3) {R = 2;}
 		switch (ori) {
 		case 'D':
@@ -720,7 +723,7 @@ public class Robot {
 	}
 	public void senseFL1() {
 		
-		System.out.println("The left front (f1) sensor vlaue is: " + FL + ".");
+		//System.out.println("The left front (f1) sensor vlaue is: " + FL + ".");
 		int actualReading=FL;int currValue;
 		if (FL == -1 || FL >= 3) {
 			FL = 2;		}
@@ -850,7 +853,7 @@ public class Robot {
 			
 			int actualReading=FM;
 			int currValue;
-			System.out.println("The middle front (f2) sensor vlaue is: " + FM + ".");
+			//System.out.println("The middle front (f2) sensor vlaue is: " + FM + ".");
 			if (FM == -1 || FM >= 3) {FM = 2;} 
 			switch (ori) {
 			case 'D':
@@ -884,7 +887,7 @@ public class Robot {
 	
 				break;
 			case 'U':
-				System.out.println("F2 IS :" + FM);
+				//System.out.println("F2 IS :" + FM);
 				for (int i = 0; i <= FM; i++) {
 					if (Global.currCX - i - 2 < 0)
 						break; // is it right? so as not to less than 0
@@ -978,7 +981,7 @@ public class Robot {
 		
 		int actualReading=FR;
 		int currValue;
-		System.out.println("The right front (f3) sensor vlaue is: " + FR + ".");
+		//System.out.println("The right front (f3) sensor vlaue is: " + FR + ".");
 		if (FR == -1 || FR >= 3) {
 			FR = 2;
 			
@@ -1109,4 +1112,3 @@ public class Robot {
 
 		
 	}
-

@@ -25,7 +25,7 @@ public class FSP {
 	public FSP(){
 		initalizesemSPMap();
 		heurValue.initialize();
-		gValue astar=new gValue(Global.robotMap);
+		gValue astar=new gValue(Global.realMap);
 		initalizeNodes();
 	}
 	public void findPath()
@@ -402,7 +402,7 @@ public class FSP {
 		String returnString="";
 		int count=0;
 		String[] part=str.split(",");
-		for(int i=0;i<part.length;i++)
+		for(int i=0;i<part.length;i++)  //part . size?? 
 		{			
 			//loop till the last F010
 			if(part[i].equals("F010"))
@@ -412,7 +412,7 @@ public class FSP {
 			else
 			{
 				
-					if(count>0 && count<9) 
+					if(count>0 && count<=9)  // ? changed to <=
 					{
 						{sB1.append("F0"+count+"1/");count=0;}
 					}
@@ -431,7 +431,20 @@ public class FSP {
 			}
 			
 		}
-		returnString=sB1.toString();		
+		if (count!=0){
+			if(count>0 && count<=9)  // ? changed to <=
+			{
+				{sB1.append("F0"+count+"1/");count=0;}
+			}
+			else if(count>9)
+			{
+				
+				sB1.append("F"+count+"1/");count=0;
+			}
+		}
+			
+		returnString=sB1.toString();	
+		System.out.println("the orginal string is : " + returnString);
 		return returnString;
 		
 	}
@@ -469,10 +482,13 @@ public class FSP {
 		String checkString="";
 		int count=0;
 		String currString="";
+		int count2=0;
 		while(count<loopCount)
 		{
-			if(count+1<loopCount)
-				currString=str.substring(count*60,(((count+1)*60)-1));
+			if(stringLength<60)
+				currString=str;
+			else if(count+1<loopCount)
+				currString=str.substring(count*60,(((count+1)*60)));
 			else
 				currString=str.substring(count*60,stringLength-1);
 			System.out.println("The seperated string: "+currString);
@@ -486,7 +502,13 @@ public class FSP {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					if(checkString.charAt(0)=='O' && checkString.charAt(1)=='K') waitingToSend=false;
+					if(checkString.charAt(0)=='O' && checkString.charAt(1)=='K')
+						/*{
+							if(count==0){count2=12;System.out.println("Now it is the first fastest part");}
+							else count2++;
+						}
+					if(count2==12)*/
+							{waitingToSend=false;count2=1;}
 				}
 				try {
 					
