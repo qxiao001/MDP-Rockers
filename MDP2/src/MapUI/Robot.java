@@ -13,7 +13,7 @@ public class Robot {
 	// private int SL,SR,FL,FM,FR; // how far is the obstacles , in grids
 	// private int SL_B,SR_B,FL_B,FM_B,FR_B; // if there is obstacles in front,
 	// == 0
-	private char ori = ' '; // orientation => U, D, L, R
+	public char ori = ' '; // orientation => U, D, L, R
 	private int FL, FM, FR, L, R;
 	private SensorReading sensorReading;
 	int count = 0;

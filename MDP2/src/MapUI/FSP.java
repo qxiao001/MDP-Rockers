@@ -25,7 +25,7 @@ public class FSP {
 	public FSP(){
 		initalizesemSPMap();
 		heurValue.initialize();
-		gValue astar=new gValue(Global.realMap);
+		gValue astar=new gValue(Global.robotMap);
 		initalizeNodes();
 	}
 	public void findPath()
