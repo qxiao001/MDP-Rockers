@@ -477,7 +477,7 @@ public class FSP {
 	public void sendMoveByMove(String str)
 	{
 		int stringLength=str.length();
-		double z= (double) stringLength/50;
+		double z= (double) stringLength/60;
 		int loopCount=(int)Math.ceil(z);boolean waitingToSend=true;
 		String checkString="";
 		int count=0;
@@ -485,14 +485,14 @@ public class FSP {
 		int count2=0;
 		while(count<loopCount)
 		{
-			if(stringLength<50)
+			if(stringLength<60)
 				currString=str;
 			else if(count+1<loopCount)
-				currString=str.substring(count*50,(((count+1)*50)));
+				currString=str.substring(count*60,(((count+1)*60)));
 			else
-				currString=str.substring(count*50,stringLength-1);
+				currString=str.substring(count*60,stringLength-1);
 			System.out.println("The seperated string: "+currString);
-			
+			count++;
 			if(Global.realRun==true){
 				while(waitingToSend)
 				{
@@ -503,14 +503,13 @@ public class FSP {
 						e1.printStackTrace();
 					}
 					if(checkString.charAt(0)=='O' && checkString.charAt(1)=='K')
-						{
-							if(count==0){count2=10;System.out.println("Now it is the first fastest part");}
+						/*{
+							if(count==0){count2=12;System.out.println("Now it is the first fastest part");}
 							else count2++;
 						}
-					if(count2==10)
+					if(count2==12)*/
 							{waitingToSend=false;count2=1;}
 				}
-				count++;
 				try {
 					
 					Global.c.mySend(currString);

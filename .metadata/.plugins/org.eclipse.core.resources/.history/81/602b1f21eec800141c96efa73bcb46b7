@@ -492,7 +492,7 @@ public class FSP {
 			else
 				currString=str.substring(count*50,stringLength-1);
 			System.out.println("The seperated string: "+currString);
-			
+			count++;
 			if(Global.realRun==true){
 				while(waitingToSend)
 				{
@@ -510,7 +510,6 @@ public class FSP {
 					if(count2==10)
 							{waitingToSend=false;count2=1;}
 				}
-				count++;
 				try {
 					
 					Global.c.mySend(currString);

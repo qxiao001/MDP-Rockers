@@ -591,7 +591,7 @@ public void moveForward1() {
 					ori = robot.checkOri();
 					adjustCount = 0;
 					/******************************************************** Adjust Calibration ********************************************/
-				/*	if(Global.realRun==true){
+					/*if(Global.realRun==true){
 						while (adjustCount < 1){
 							
 							if (front3GridsBlocked(ori) && mapLeftMiddleBlocked()){
@@ -610,9 +610,9 @@ public void moveForward1() {
 							else
 								adjustCount=1;
 						}
-					}
+					}*/
 		       	
-					*/
+					
 					
 					
 					/******************************************************** Facing Up *****************************************************/
@@ -1302,10 +1302,7 @@ public void moveForward1() {
 					if (Global.currCX == 1)
 						reachTop = true;
 
-					if (((Global.currCX == 1) && (Global.currCY == 13))||
-							((Global.currCX == 1) && (Global.currCY == 12))||
-							((Global.currCX == 2) && (Global.currCY == 13))||
-							((Global.currCX == 2) && (Global.currCY == 12)))
+					if ((Global.currCX == 1) && (Global.currCY == 13))
 						reachGoal = true;
 					
 					if (reachGoal && (Global.currCX == 18) && (Global.currCY == 1) && (robot.checkOri() == 'U'))
