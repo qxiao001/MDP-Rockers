@@ -13,6 +13,7 @@ public class Client {
 	//private InetAddress ipAddress;
 	byte[] receiveData = new byte[1024];
 	byte[] sendData = new byte[1024];
+	boolean readyToReadNext=false;
 	public Client()
 	{
 		try 
@@ -45,9 +46,13 @@ public class Client {
 	}
 	public String myReceive() throws IOException
 	{
+		//check condition for syncronization
+		//everytime they have done the insturction they send us "OK"
+	
 		DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 	    Global.client.receive(receivePacket);
 	    String modifiedSentence = new String(receivePacket.getData());
+	
 	    //System.out.println(modifiedSentence);
 	    return modifiedSentence;
 	}

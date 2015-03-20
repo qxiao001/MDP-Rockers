@@ -30,8 +30,11 @@ public class Global {
 	public static String moveForward="F010/";
 	public static String turnLeft="L000/";
 	public static String turnRight="R000/";
-	public static String adjustWall="A000/";
-	public static String adjustCorner="C000/";
+	// edited for calibration
+	public static String adjustLeftWall="A000/";
+	public static String adjustLeftCorner="C000/";
+	public static String adjustRightWall="A000/";
+	public static String adjustRightCorner="C000/";
 	public static int stepwent=0;
 	
 	//new global values

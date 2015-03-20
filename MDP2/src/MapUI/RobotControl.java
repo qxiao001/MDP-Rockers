@@ -34,6 +34,7 @@ public class RobotControl {
 		System.out.println("here");
         Global.c.mySend("X000/");
         
+        
 		
 	}
 	public static void initializeLogicalMap()
@@ -47,8 +48,8 @@ public class RobotControl {
 	    }
 		
 		//start zone
-		for (int i = Global.currFX; i <  Global.currFX + 3; i++){
-			for (int j = Global.currFY - 1; j < Global.currFY + 2; j++){
+		for (int i = 17; i < 20; i++){
+			for (int j = 0; j < 3; j++){
 				Global.exploreMap[i][j] = 1;
 				Global.robotMap[i][j] = 0;
 			}

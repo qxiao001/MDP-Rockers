@@ -1,0 +1,302 @@
+package MapUI;
+
+import java.io.IOException;
+
+import Global.Global;
+
+public class Calibrate {
+	
+	public Calibrate(){
+		
+	}
+	public static boolean left2RowsBlocked(char orientation) {
+		boolean blocked = false;
+		switch (orientation) {
+		case 'U': // not at left wall
+			if ((Global.currCY != 1)
+					&& (Global.robotMap[Global.currCX + 1][Global.currCY - 2] > 0)
+					&& (Global.robotMap[Global.currCX][Global.currCY - 2] > 0))
+				blocked = true;
+			else if (Global.currCY == 1)
+				blocked = true;
+			break;
+		case 'R': // not at top wall
+			if ((Global.currCX != 1)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY] > 0)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY - 1] > 0))
+				blocked = true;
+			else if (Global.currCX == 1)
+				blocked = true;
+			break;
+		case 'L': // not at bottom wall
+			if ((Global.currCX != 18)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY + 1] > 0)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY] > 0))
+				blocked = true;
+			else if (Global.currCX == 18)
+				blocked = true;
+			break;
+		case 'D': // not at right wall
+			if ((Global.currCY != 13)
+					&& (Global.robotMap[Global.currCX][Global.currCY + 2] > 0)
+					&& (Global.robotMap[Global.currCX - 1][Global.currCY + 2] > 0))
+				blocked = true;
+			else if (Global.currCY == 13)
+				blocked = true;
+			break;
+		}
+		System.out.println("left 2 rows blocked at " + blocked + Global.currCX + ","
+				+ Global.currCY);
+		return blocked;
+	}
+	public static boolean right2RowsBlocked(char orientation) {
+		boolean blocked = false;
+		switch (orientation) {
+		case 'D': // not at left wall
+			if ((Global.currCY != 1)
+					&& (Global.robotMap[Global.currCX - 1][Global.currCY - 2] > 0)
+					&& (Global.robotMap[Global.currCX][Global.currCY - 2] > 0))
+				blocked = true;
+			else if (Global.currCY == 1)
+				blocked = true;
+			break;
+		case 'L': // not at top wall
+			if ((Global.currCX != 1)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY] > 0)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY + 1] > 0))
+				blocked = true;
+			else if (Global.currCX == 1)
+				blocked = true;
+			break;
+		case 'R': // not at bottom wall
+			if ((Global.currCX != 18)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY - 1] > 0)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY] > 0))
+				blocked = true;
+			else if (Global.currCX == 18)
+				blocked = true;
+			break;
+		case 'U': // not at right wall
+			if ((Global.currCY != 13)
+					&& (Global.robotMap[Global.currCX][Global.currCY + 2] > 0)
+					&& (Global.robotMap[Global.currCX + 1][Global.currCY + 2] > 0))
+				blocked = true;
+			else if (Global.currCY == 13)
+				blocked = true;
+			break;
+		}
+		System.out.println("left 2 rows blocked at " + blocked + Global.currCX + ","
+				+ Global.currCY);
+		return blocked;
+	}
+	public static boolean left3RowsBlocked(char orientation) {
+		boolean blocked = false;
+		switch (orientation) {
+		case 'U': // not at left wall
+			if ((Global.currCY != 1)
+					&& (Global.robotMap[Global.currCX + 1][Global.currCY - 2] > 0)
+					&& (Global.robotMap[Global.currCX][Global.currCY - 2] > 0)
+					&& (Global.robotMap[Global.currCX - 1][Global.currCY - 2] > 0))
+				blocked = true;
+			else if (Global.currCY == 1)
+				blocked = true;
+			break;
+		case 'R': // not at top wall
+			if ((Global.currCX != 1)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY] > 0)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY - 1] > 0)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY + 1] > 0))
+				blocked = true;
+			else if (Global.currCX == 1)
+				blocked = true;
+			break;
+		case 'L': // not at bottom wall
+			if ((Global.currCX != 18)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY + 1] > 0)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY] > 0)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY - 1] > 0))
+				blocked = true;
+			else if (Global.currCX == 18)
+				blocked = true;
+			break;
+		case 'D': // not at right wall
+			if ((Global.currCY != 13)
+					&& (Global.robotMap[Global.currCX][Global.currCY + 2] > 0)
+					&& (Global.robotMap[Global.currCX - 1][Global.currCY + 2] > 0)
+					&& (Global.robotMap[Global.currCX + 1][Global.currCY + 2] > 0))
+				blocked = true;
+			else if (Global.currCY == 13)
+				blocked = true;
+			break;
+		}
+		System.out.println("left blocked at " + blocked + Global.currCX + ","
+				+ Global.currCY);
+		return blocked;
+	}
+	public static boolean right3RowsBlocked(char orientation) {
+		boolean blocked = false;
+		switch (orientation) {
+		case 'D': // not at left wall
+			if ((Global.currCY != 1)
+					&& (Global.robotMap[Global.currCX + 1][Global.currCY - 2] > 0)
+					&& (Global.robotMap[Global.currCX][Global.currCY - 2] > 0)
+					&& (Global.robotMap[Global.currCX - 1][Global.currCY - 2] > 0))
+				blocked = true;
+			else if (Global.currCY == 1)
+				blocked = true;
+			break;
+		case 'L': // not at top wall
+			if ((Global.currCX != 1)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY] > 0)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY - 1] > 0)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY + 1] > 0))
+				blocked = true;
+			else if (Global.currCX == 1)
+				blocked = true;
+			break;
+		case 'R': // not at bottom wall
+			if ((Global.currCX != 18)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY + 1] > 0)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY] > 0)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY - 1] > 0))
+				blocked = true;
+			else if (Global.currCX == 18)
+				blocked = true;
+			break;
+		case 'U': // not at right wall
+			if ((Global.currCY != 13)
+					&& (Global.robotMap[Global.currCX][Global.currCY + 2] > 0)
+					&& (Global.robotMap[Global.currCX - 1][Global.currCY + 2] > 0)
+					&& (Global.robotMap[Global.currCX + 1][Global.currCY + 2] > 0))
+				blocked = true;
+			else if (Global.currCY == 13)
+				blocked = true;
+			break;
+		}
+		System.out.println("left blocked at " + blocked + Global.currCX + ","
+				+ Global.currCY);
+		return blocked;
+	}
+	public static boolean front3ColumsBlocked(char orientation) {
+		boolean frontIsBlocked = false;
+		switch (orientation) {
+		case 'U': // not at top wall
+			System.out.println("Condition:" + ((Global.currCX != 1)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY + 1] > 0)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY] > 0)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY - 1] > 0)));
+			
+			if ((Global.currCX != 1)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY + 1] > 0)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY] > 0)
+					&& (Global.robotMap[Global.currCX - 2][Global.currCY - 1] > 0))
+				{frontIsBlocked = true;
+			    System.out.println("front true!!");}
+			else if (Global.currCX == 1)
+				frontIsBlocked = true;
+			break;
+		case 'R': // not at right wall
+			if ((Global.currCY != 13)
+					&& (Global.robotMap[Global.currCX - 1][Global.currCY + 2] > 0)
+					&& (Global.robotMap[Global.currCX][Global.currCY + 2] > 0)
+					&& (Global.robotMap[Global.currCX + 1][Global.currCY + 2] > 0))
+				frontIsBlocked = true;
+			else if (Global.currCY == 13)
+				frontIsBlocked = true;
+			break;
+		case 'L': // not at left wall
+			if ((Global.currCY != 1)
+					&& (Global.robotMap[Global.currCX + 1][Global.currCY - 2] > 0)
+					&& (Global.robotMap[Global.currCX][Global.currCY - 2] > 0)
+					&& (Global.robotMap[Global.currCX - 1][Global.currCY - 2] > 0))
+				frontIsBlocked = true;
+			else if (Global.currCY == 1)
+				frontIsBlocked = true;
+			break;
+		case 'D': // not at bottom wall
+			if ((Global.currCX != 18)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY - 1] > 0)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY] > 0)
+					&& (Global.robotMap[Global.currCX + 2][Global.currCY + 1] > 0))
+				frontIsBlocked = true;
+			else if (Global.currCX == 18)
+				frontIsBlocked = true;
+			break;
+		}
+		System.out.println("front blocked at  "+frontIsBlocked + Global.currCX + ","
+				+ Global.currCY);
+		return frontIsBlocked;
+	}
+	
+	public static boolean atLeftCorner(char ori){
+		Boolean atCorner=false;
+		if (front3ColumsBlocked(ori)&&left3RowsBlocked(ori))
+			atCorner=true;			
+		return atCorner;
+				
+	}
+	public static boolean atRightCorner(char ori){
+		Boolean atCorner=false;
+		if (front3ColumsBlocked(ori)&&right3RowsBlocked(ori))
+			atCorner=true;			
+		return atCorner;			
+	}
+	public static void adjustLeftWall() {
+		try {
+			Global.c.mySend(Global.adjustLeftWall);
+			Global.lastSend = Global.adjustLeftWall;
+			Global.stepwent = 0;
+
+			System.out
+					.println("I have sent robot to adjust calibration at left wall.");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			Global.stepwent = 3;
+		}
+	}
+
+	public static void adjustLeftCorner() {
+		try {
+			Global.c.mySend(Global.adjustLeftCorner);
+			Global.lastSend = Global.adjustLeftCorner;
+			Global.stepwent = 0;
+
+			System.out
+					.println("I have sent robot to adjust calibration at corner.");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			Global.stepwent = 3;
+		}
+		public static void adjustRightWall() {
+			try {
+				Global.c.mySend(Global.adjustRightWall);
+				Global.lastSend = Global.adjustRightWall;
+				Global.stepwent = 0;
+
+				System.out
+						.println("I have sent robot to adjust calibration at left wall.");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				Global.stepwent = 3;
+			}
+		}
+
+		public static void adjustRightCorner() {
+			try {
+				Global.c.mySend(Global.adjustRightCorner);
+				Global.lastSend = Global.adjustRightCorner;
+				Global.stepwent = 0;
+
+				System.out
+						.println("I have sent robot to adjust calibration at corner.");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				Global.stepwent = 3;
+			}
+	}
+
+}

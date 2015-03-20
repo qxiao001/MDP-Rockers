@@ -201,7 +201,7 @@ public class Map extends JFrame implements ActionListener{
     public void displaySimulator(){
     	
     	Simulator simulator = new Simulator("Simulator");               //makes new ButtonGrid with 2 parameters
-        simulator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //simulator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         simulator.addComponentsToMap(simulator.getContentPane());
         simulator.pack();                                               //sets appropriate size for frame
         simulator.setVisible(true);

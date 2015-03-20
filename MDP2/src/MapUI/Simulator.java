@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 //import testing.FSP;
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -25,7 +26,7 @@ import java.io.IOException;
 public class Simulator extends JFrame implements ActionListener {
 
 	static boolean save = false;
-	Container pane = new Container();;
+	Container pane = new Container();
 	JPanel gridPanel = new JPanel();
 	JPanel simulatePanel = new JPanel();
 	JPanel explorePanel = new JPanel();
@@ -156,19 +157,36 @@ public class Simulator extends JFrame implements ActionListener {
 
 		if (btnName.equals("Fastest Path") == true) {
 			// for Fastest part
-			Global.fastestPath = true;
-			FSP f = new FSP();
-			// f.printNodesCostOnly();
+				Global.fastestPath=true;
+			FSP f=new FSP();
+				//f.printNodesCostOnly();
 			f.findPath();
-			String str = f.iLoveToMoveIt();
-			paintFsPath();
-			paintRobotMap();
-
-			String fastestPathstr = f.oneString(str);
+			String str=f.iLoveToMoveIt1();
+			/*System.out.println("******* Please see this line *********");
+			System.out.println("This is the string I get from iLoveToMoveIt1");
+			System.out.println(str);*/
+			// ********* for robot path showing only
+				paintFsPath();
+				paintRobotMap();
+			// ********* end of robot path showing only
+			String fastestPathstr=f.oneString1(str);
 			moveForFastestPath(str);
-			f.sendMoveByMove(fastestPathstr);
+			///********************* please remove it ******************************
+			try {
+				Global.c.mySend("F000/");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			///********************* please remove it ******************************
 
-		} else if (btnName.equals("Explore")) {
+			/*System.out.println("******* Please see this line *********");
+			System.out.println("This is the string I get from oneString(str)");
+			System.out.println(fastestPathstr);*/
+			f.sendMoveByMove(fastestPathstr);			
+		} 
+		
+		else if (btnName.equals("Explore")) {
 			setRobot();
 			explore();
 		} else {
@@ -569,6 +587,7 @@ public class Simulator extends JFrame implements ActionListener {
 		}
 	}
 
+	/*  old calibration
 	public static void adjustWall() {
 		try {
 			Global.c.mySend(Global.adjustWall);
@@ -597,7 +616,7 @@ public class Simulator extends JFrame implements ActionListener {
 			e1.printStackTrace();
 			Global.stepwent = 3;
 		}
-	}
+	}   */
 
 	// *********************************The end of robot
 	// Movement*************************************
@@ -656,6 +675,14 @@ public class Simulator extends JFrame implements ActionListener {
 				System.out.println("coverage limit: " + Global.coverageLimit);
 				System.out.println("steps/s: " + Global.steps);
 				long startComputeTime = System.nanoTime();
+				///********************* please remove it ******************************
+				try {
+					Global.c.mySend("F000/");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				///********************* please remove it ******************************
 
 				setRobot();
 
@@ -665,10 +692,12 @@ public class Simulator extends JFrame implements ActionListener {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
+				
+				int count=0;
 				while (!stop) {
 					lastOri = ori;
 					ori = robot.checkOri();
+					
 					// Point newPoint = new Point(Global.currCX, Global.currCY);
 					// visitedPoint[stepsCount] = newPoint;
 					//
@@ -1685,11 +1714,20 @@ public class Simulator extends JFrame implements ActionListener {
 					if ((Global.currCX == 1) && (Global.currCY == 13))
 						reachGoal = true;
 
-					if (reachGoal && (Global.currCX == 18)
-							&& (Global.currCY == 1)
-							&& (robot.checkOri() == 'U')) {
-						System.out.println("Exploration finish!");
-						break;
+					if (reachGoal && (Global.currCX == 18) && (Global.currCY == 1)){
+						
+						if (robot.checkOri() == 'U') {
+							System.out.println("Exploration finish!");
+							break;
+						}
+						else if (robot.checkOri() == 'D') 
+							{turnLeft();turnRight();break;}
+						
+						else if(robot.checkOri() == 'R') 
+							{turnLeft();break;}
+						else
+							{turnRight();break;}
+						
 					}
 
 					long time = (System.nanoTime() - startComputeTime) / 1000000000;

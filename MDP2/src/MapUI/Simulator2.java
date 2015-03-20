@@ -360,7 +360,6 @@ public class Simulator2 extends JFrame implements ActionListener  {
 				if (Global.exploreMap[i][j] == 1) {
 					gridExplore[i][j].setBackground(Color.WHITE);
 					
-					
 				}
 				if((Global.exploreMap[i][j] == 2))
 				{
